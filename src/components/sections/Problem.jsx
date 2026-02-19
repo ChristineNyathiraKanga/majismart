@@ -59,7 +59,7 @@ export default function Problem() {
     {
       num: 'Zero',
       title: 'Digital Dispatch',
-      body: 'No platform connects households to vetted vendors with real-time tracking, quality controls, and flexible M-Pesa payment.',
+      body: 'No platform connects households to vetted vendors with real-time tracking, quality controls, and flexible payment.',
     },
   ]
 

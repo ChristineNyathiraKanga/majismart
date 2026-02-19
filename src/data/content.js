@@ -236,6 +236,39 @@ export const marqueeItems = [
   'Real-Time GPS Tracking',
 ]
 
+export const useOfFundsData = [
+  {
+    label: 'App & Backend Build',
+    value: 35,
+    description: 'Consumer & vendor apps · Real-time dispatch · Payment integrations · Analytics.'
+  },
+  {
+    label: 'Go-to-Market & Activations',
+    value: 20,
+    description: 'Estate partnerships · Rider onboarding · Customer acquisition · Pilot launch events.'
+  },
+  {
+    label: 'Vendor Onboarding Agents',
+    value: 15,
+    description: 'Field team for vendor verification · Quality audits · SLA enforcement.'
+  },
+  {
+    label: 'Rider Acquisition & Incentives',
+    value: 10,
+    description: 'Bodaboda network recruitment · Training · Launch incentives & bonuses.'
+  },
+  {
+    label: 'Ops, Legal & QA',
+    value: 8,
+    description: 'Compliance · Business registration · Quality assurance · Customer support setup.'
+  },
+  {
+    label: 'Buffer / Runway',
+    value: 12,
+    description: 'Contingency reserves & extended runway for proof-of-concept refinement.'
+  },
+]
+
 export const ctaStats = [
   { value: '$100K', label: 'Pre-seed raise' },
   { value: 'M16–22', label: 'Break-even target' },

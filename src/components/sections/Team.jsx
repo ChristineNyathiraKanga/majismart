@@ -104,7 +104,7 @@ export default function Team() {
           <strong className="text-gold font-display text-lg block mb-1">+ 5 Vendor Onboarding Agents</strong>
           <span className="text-sm text-muted">
             Field activation · vendor compliance checks · Nairobi pilot zones · 
-            <span className="text-xs text-muted ml-1">Statutory costs budgeted: PAYE | AHL 3% | SHIF 2.75% | NSSF tiered</span>
+            <span className="text-xs text-muted ml-1">Statutory costs budgeted: PAYE | AHL 3% | SHIF 2.75% | NSSF tiered (confirmed with payroll provider)</span>
           </span>
         </div>
       </div>

@@ -32,11 +32,11 @@ export default function Competitive() {
 
   const competitors = [
     { name: 'Maji Smart', drink: true, refill: true, app: true, mpesa: true, subs: true, vendorQA: true, cityRollout: true, highlight: true },
-    { name: 'Jibu Kenya', drink: true, refill: false, app: true, mpesa: true, subs: false, vendorQA: false, cityRollout: false },
-    { name: 'GoBeba', drink: true, refill: true, app: true, mpesa: true, subs: false, vendorQA: false, cityRollout: false },
-    { name: 'PowWater', drink: true, refill: false, app: true, mpesa: true, subs: false, vendorQA: false, cityRollout: false },
-    { name: 'Balozy', drink: true, refill: true, app: false, mpesa: true, subs: false, vendorQA: false, cityRollout: false },
-    { name: 'Uber/Generic', drink: true, refill: true, app: false, mpesa: true, subs: false, vendorQA: false, cityRollout: false },
+    { name: 'Jibu Kenya', drink: true, refill: false, app: false, mpesa: true, subs: false, vendorQA: true, cityRollout: false },
+    { name: 'GoBeba', drink: true, refill: false, app: true, mpesa: true, subs: false, vendorQA: false, cityRollout: false },
+    { name: 'PowWater', drink: false, refill: true, app: true, mpesa: true, subs: false, vendorQA: false, cityRollout: false },
+    { name: 'Balozy', drink: true, refill: true, app: false, mpesa: false, subs: false, vendorQA: false, cityRollout: false },
+    { name: 'Uber/Generic', drink: false, refill: false, app: true, mpesa: true, subs: false, vendorQA: false, cityRollout: false },
   ]
 
   const moats = [

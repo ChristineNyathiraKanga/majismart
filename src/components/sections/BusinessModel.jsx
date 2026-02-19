@@ -75,7 +75,7 @@ export default function BusinessModel() {
       </div>
 
       <div className="model-note bg-teal/10 border border-border rounded-lg px-6 py-4 text-center font-mono text-sm text-teal-light tracking-wide reveal">
-        1×20L order: ~KES 50–60 gross &nbsp;·&nbsp; 2×20L order: ~KES 80–95 gross&nbsp;·&nbsp; 
+        1×20L order: ~KES 50–60 gross contribution&nbsp;·&nbsp; 2×20L order: ~KES 80–95 gross contribution&nbsp;·&nbsp; 
         <span className="text-gold">Subscription + batching = path to profitability</span>
       </div>
     </section>

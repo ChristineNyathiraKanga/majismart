@@ -146,14 +146,19 @@ export default function Financials() {
             <h4 className="font-mono text-[0.6rem] tracking-[0.2em] uppercase text-teal mb-4">
               Key Assumptions
             </h4>
-            <ul className="space-y-2 text-sm text-muted leading-relaxed">
-              <li>Avg order: ~KES 600</li>
-              <li>Commission 10–12% + delivery margin KES 30–50</li>
-              <li>Subscriptions: 10% household / 5% vendor penetration</li>
-              <li>Batching improves economics post M6</li>
+            <ul className="space-y-2 text-sm text-muted leading-relaxed list-disc">
+              <li> Avg order: 1.6×20L bottles per transaction</li>
+              <li> Commission: 12% → 15% by M12</li>
+              <li>Subscription attach: 18% of active users</li>
+              <li>Batching efficiency: 2.4 drops/rider/hour</li>
+              <li><span className="text-gold">Monthly burn: KES 1.0–1.6M (lean pilot)</span></li>
             </ul>
           </div>
         </div>
+
+        <div className="model-note bg-gold/10 border border-border rounded-lg px-6 py-4 text-center font-mono text-sm text-gold-light tracking-wide reveal">
+        <span className="text-gold">Break-even: Month 16–22 · Profitability tied to batching efficiency + subscription attachment rate</span>
+      </div>
       </div>
     </section>
   )

@@ -33,6 +33,7 @@ export default function Nav() {
     { id: "business", label: "Model" },
     { id: "competitive", label: "Moat" },
     { id: "team", label: "Team" },
+    { id: "use-of-funds", label: "Ask" },
   ]
 
   const handleNavClick = (id) => {

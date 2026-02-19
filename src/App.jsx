@@ -15,6 +15,7 @@ import DeliveryEconomics from './components/sections/DeliveryEconomics'
 import GoToMarket from './components/sections/GoToMarket'
 import Competitive from './components/sections/Competitive'
 import Team from './components/sections/Team'
+import UseOfFunds from './components/sections/UseOfFunds'
 import CTA from './components/sections/CTA'
 
 function AppContent() {
@@ -35,6 +36,7 @@ function AppContent() {
         <GoToMarket />
         <Competitive />
         <Team />
+        <UseOfFunds />
         <CTA />
       </main>
       <Footer />

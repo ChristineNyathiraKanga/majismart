@@ -40,7 +40,7 @@ export default function CTA() {
     <section
       id="cta"
       ref={containerRef}
-      className="min-h-screen px-6 md:px-10 lg:px-20 py-24 lg:py-32 relative flex flex-col items-center justify-center text-center bg-navy overflow-hidden"
+      className="min-h-screen px-6 md:px-10 lg:px-20 py-24 lg:py-32 relative flex flex-col items-center justify-center text-center bg-navy-mid overflow-hidden"
     >
       {/* Background circles */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full border border-teal/10 pointer-events-none" />
