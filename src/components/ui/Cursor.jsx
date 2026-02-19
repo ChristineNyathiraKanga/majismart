@@ -3,19 +3,22 @@ import { useEffect, useRef, useState } from 'react'
 export default function Cursor() {
   const cursorRef = useRef(null)
   const ringRef = useRef(null)
-  const [isVisible, setIsVisible] = useState(true)
+  const [isTouch, setIsTouch] = useState(false)
+  const [hasMoved, setHasMoved] = useState(false)
 
   useEffect(() => {
     // Check if touch device
     const isTouchDevice = () => {
       return (
-        (navigator.maxTouchPoints || navigator.msMaxTouchPoints) > 0 ||
+        'ontouchstart' in window ||
+        navigator.maxTouchPoints > 0 ||
         window.matchMedia('(pointer: coarse)').matches
       )
     }
 
     if (isTouchDevice()) {
-      setIsVisible(false)
+      setIsTouch(true)
+      document.body.style.cursor = 'auto'
       return
     }
 
@@ -23,9 +26,29 @@ export default function Cursor() {
     const ring = ringRef.current
     if (!cursor || !ring) return
 
-    let mx = 0, my = 0, rx = 0, ry = 0
+    // Hide cursor initially until mouse moves
+    cursor.style.opacity = '0'
+    ring.style.opacity = '0'
+
+    // Initialize position
+    let mx = window.innerWidth / 2
+    let my = window.innerHeight / 2
+    let rx = mx - 18
+    let ry = my - 18
+
+    cursor.style.left = mx - 5 + 'px'
+    cursor.style.top = my - 5 + 'px'
+    ring.style.left = rx + 'px'
+    ring.style.top = ry + 'px'
+
+    let isHovering = false
 
     const handleMouseMove = (e) => {
+      if (!hasMoved) {
+        setHasMoved(true)
+        cursor.style.opacity = '1'
+        ring.style.opacity = '1'
+      }
       mx = e.clientX
       my = e.clientY
       cursor.style.left = mx - 5 + 'px'
@@ -41,41 +64,44 @@ export default function Cursor() {
     }
     animateCursor()
 
-    const handleMouseEnter = () => {
-      cursor.style.transform = 'scale(2.5)'
-      ring.style.width = '60px'
-      ring.style.height = '60px'
-      ring.style.opacity = '0.5'
+    // Use event delegation for interactive elements
+    const interactiveSelectors = 'a, button, .problem-card, .revenue-card, .city-card, .team-card, .moat-item, .channel-item, .feature-card, .stat-card, .step-card, .metric-card, [data-cursor-hover]'
+
+    const handleMouseOver = (e) => {
+      const interactive = e.target.closest(interactiveSelectors)
+      if (interactive && !isHovering) {
+        isHovering = true
+        cursor.style.transform = 'scale(2.5)'
+        ring.style.width = '60px'
+        ring.style.height = '60px'
+        ring.style.opacity = '0.5'
+      }
     }
 
-    const handleMouseLeave = () => {
-      cursor.style.transform = 'scale(1)'
-      ring.style.width = '36px'
-      ring.style.height = '36px'
-      ring.style.opacity = '1'
+    const handleMouseOut = (e) => {
+      const interactive = e.target.closest(interactiveSelectors)
+      const relatedInteractive = e.relatedTarget?.closest?.(interactiveSelectors)
+      if (interactive && !relatedInteractive && isHovering) {
+        isHovering = false
+        cursor.style.transform = 'scale(1)'
+        ring.style.width = '36px'
+        ring.style.height = '36px'
+        ring.style.opacity = '1'
+      }
     }
 
     document.addEventListener('mousemove', handleMouseMove)
-
-    // Add interactive element listeners
-    const interactiveElements = document.querySelectorAll(
-      'a, button, .problem-card, .revenue-card, .city-card, .team-card, .moat-item, .channel-item'
-    )
-    interactiveElements.forEach((el) => {
-      el.addEventListener('mouseenter', handleMouseEnter)
-      el.addEventListener('mouseleave', handleMouseLeave)
-    })
+    document.addEventListener('mouseover', handleMouseOver)
+    document.addEventListener('mouseout', handleMouseOut)
 
     return () => {
       document.removeEventListener('mousemove', handleMouseMove)
-      interactiveElements.forEach((el) => {
-        el.removeEventListener('mouseenter', handleMouseEnter)
-        el.removeEventListener('mouseleave', handleMouseLeave)
-      })
+      document.removeEventListener('mouseover', handleMouseOver)
+      document.removeEventListener('mouseout', handleMouseOut)
     }
-  }, [])
+  }, [hasMoved])
 
-  if (!isVisible) return null
+  if (isTouch) return null
 
   return (
     <>

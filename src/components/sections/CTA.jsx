@@ -53,6 +53,13 @@ export default function CTA() {
         overflow: 'hidden',
       }}
     >
+      <style>{`
+        @media (max-width: 768px) {
+          .cta-stats { flex-direction: column !important; gap: 24px !important; }
+          .cta-buttons { flex-direction: column !important; width: 100%; }
+          .cta-buttons a { width: 100%; text-align: center; }
+        }
+      `}</style>
       {/* Background circles */}
       <div
         style={{

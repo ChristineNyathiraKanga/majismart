@@ -83,6 +83,16 @@ export default function Problem() {
         background: 'linear-gradient(180deg, var(--navy) 0%, #0B1E38 100%)',
       }}
     >
+      <style>{`
+        @media (max-width: 1024px) {
+          .problem-grid { grid-template-columns: 1fr 1fr !important; }
+        }
+        @media (max-width: 768px) {
+          .problem-grid { grid-template-columns: 1fr !important; }
+          .problem-card { padding: 32px 24px !important; }
+          .problem-num { font-size: 3rem !important; }
+        }
+      `}</style>
       <div
         className="section-label reveal"
         style={{

@@ -74,6 +74,16 @@ export default function Team() {
         background: 'var(--navy-mid)',
       }}
     >
+      <style>{`
+        @media (max-width: 1024px) {
+          .team-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+        @media (max-width: 600px) {
+          .team-grid { grid-template-columns: 1fr !important; }
+          .team-card { padding: 24px 16px !important; }
+          .agents-bar { flex-direction: column !important; gap: 12px !important; text-align: center; }
+        }
+      `}</style>
       <div
         className="section-label reveal"
         style={{

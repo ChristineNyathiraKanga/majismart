@@ -1,12 +1,21 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Cell,
+  LabelList,
+  ResponsiveContainer,
+} from 'recharts'
 
 gsap.registerPlugin(ScrollTrigger)
 
 export default function Financials() {
   const containerRef = useRef(null)
-  const chartRef = useRef(null)
 
   const barData = [
     { month: 'M1', val: 120 },
@@ -21,7 +30,9 @@ export default function Financials() {
     { month: 'M24', val: 22000 },
   ]
 
-  const maxVal = 22000
+  const formatValue = (value) => {
+    return value >= 1000 ? value.toLocaleString() : value
+  }
 
   const cityRolloutTable = [
     { city: 'Nairobi', launch: 'M1', breakeven: 'M18–22', rev24: '22M/mo', highlight: true },
@@ -47,21 +58,6 @@ export default function Financials() {
       })
 
       gsap.set('.reveal', { opacity: 0, y: 40 })
-
-      // Bar chart animation
-      ScrollTrigger.create({
-        trigger: '#barChart',
-        start: 'top 80%',
-        onEnter: () => {
-          gsap.to('#barChart .bar', {
-            scaleY: 1,
-            duration: 1.2,
-            stagger: 0.08,
-            ease: 'power3.out',
-            transformOrigin: 'bottom',
-          })
-        }
-      })
     }, containerRef)
 
     return () => ctx.revert()
@@ -109,15 +105,34 @@ export default function Financials() {
         City-by-city rollout<br />to KES 22M/month
       </h2>
 
-      <div
-        className="fin-layout"
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 380px',
-          gap: '80px',
-          alignItems: 'start',
-        }}
-      >
+      <style>{`
+        .fin-layout {
+          display: grid;
+          grid-template-columns: 1fr 380px;
+          gap: 80px;
+          align-items: start;
+        }
+        @media (max-width: 1024px) {
+          .fin-layout {
+            grid-template-columns: 1fr;
+            gap: 40px;
+          }
+        }
+        @media (max-width: 600px) {
+          .fin-layout {
+            gap: 32px;
+          }
+          .chart-wrap {
+            padding: 20px !important;
+          }
+          .city-table th,
+          .city-table td {
+            padding: 10px 8px !important;
+            font-size: 0.72rem !important;
+          }
+        }
+      `}</style>
+      <div className="fin-layout">
         <div>
           <div
             className="chart-wrap reveal"
@@ -132,78 +147,72 @@ export default function Financials() {
               className="chart-title"
               style={{
                 fontFamily: "'Space Mono', monospace",
-                fontSize: '0.65rem',
-                letterSpacing: '0.15em',
-                color: 'var(--muted)',
-                textTransform: 'uppercase',
-                marginBottom: '28px',
+                fontSize: '0.75rem',
+                letterSpacing: '0.05em',
+                color: 'rgba(176,200,224,0.8)',
+                textAlign: 'center',
+                marginBottom: '20px',
               }}
             >
               Revenue Trajectory (KES 000s / month)
             </div>
-            <div
-              id="barChart"
-              className="bar-chart"
-              style={{
-                display: 'flex',
-                alignItems: 'flex-end',
-                gap: '10px',
-                height: '200px',
-                borderBottom: '1px solid var(--border)',
-                borderLeft: '1px solid var(--border)',
-                padding: '0 10px 10px',
-              }}
-            >
-              {barData.map((d, i) => {
-                const heightPct = (d.val / maxVal) * 100
-                const isBreakeven = i === 8
-                const isMax = i === 9
-                const color = isMax
-                  ? 'linear-gradient(to top, #0A9396, #2DC653)'
-                  : isBreakeven
-                    ? 'linear-gradient(to top, #0A9396, #00C8D7)'
-                    : 'linear-gradient(to top, rgba(10,147,150,0.4), rgba(10,147,150,0.7))'
-
-                return (
-                  <div
-                    key={i}
-                    className="bar-group"
+            <ResponsiveContainer width="100%" height={280}>
+              <BarChart
+                data={barData}
+                margin={{ top: 30, right: 10, left: 10, bottom: 10 }}
+              >
+                <CartesianGrid
+                  strokeDasharray="0"
+                  stroke="rgba(107,140,174,0.15)"
+                  vertical={false}
+                />
+                <XAxis
+                  dataKey="month"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{
+                    fill: 'rgba(176,200,224,0.6)',
+                    fontSize: 11,
+                    fontFamily: "'Space Mono', monospace",
+                  }}
+                  dy={8}
+                />
+                <YAxis
+                  domain={[0, 25000]}
+                  ticks={[0, 5000, 10000, 15000, 20000, 25000]}
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{
+                    fill: 'rgba(176,200,224,0.5)',
+                    fontSize: 10,
+                    fontFamily: "'Space Mono', monospace",
+                  }}
+                  tickFormatter={(value) => value === 0 ? '0' : value / 1000 + 'k'}
+                  width={40}
+                />
+                <Bar
+                  dataKey="val"
+                  radius={[2, 2, 0, 0]}
+                  isAnimationActive={true}
+                  animationDuration={1200}
+                  animationEasing="ease-out"
+                >
+                  {barData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill="#4FB8BB" />
+                  ))}
+                  <LabelList
+                    dataKey="val"
+                    position="top"
+                    formatter={formatValue}
                     style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      gap: '6px',
-                      flex: 1,
+                      fill: 'rgba(176,200,224,0.8)',
+                      fontSize: 10,
+                      fontFamily: "'Space Mono', monospace",
                     }}
-                  >
-                    <div
-                      className="bar"
-                      style={{
-                        width: '100%',
-                        borderRadius: '3px 3px 0 0',
-                        transformOrigin: 'bottom',
-                        transform: 'scaleY(0)',
-                        minHeight: '4px',
-                        position: 'relative',
-                        height: `${heightPct}%`,
-                        background: color,
-                      }}
-                    />
-                    <span
-                      className="bar-month"
-                      style={{
-                        fontFamily: "'Space Mono', monospace",
-                        fontSize: '0.5rem',
-                        color: 'var(--muted)',
-                        letterSpacing: '0.05em',
-                      }}
-                    >
-                      {d.month}
-                    </span>
-                  </div>
-                )
-              })}
-            </div>
+                  />
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </div>
 

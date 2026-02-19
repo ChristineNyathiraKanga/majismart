@@ -75,6 +75,14 @@ export default function GoToMarket() {
         background: 'var(--navy-mid)',
       }}
     >
+      <style>{`
+        @media (max-width: 1024px) {
+          .gtm-layout { grid-template-columns: 1fr !important; gap: 40px !important; }
+        }
+        @media (max-width: 600px) {
+          .channel-item { padding: 20px !important; flex-direction: column !important; gap: 12px !important; }
+        }
+      `}</style>
       <div
         className="section-label reveal"
         style={{

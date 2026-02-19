@@ -43,14 +43,14 @@ export default function Footer() {
               </ul>
             </div>
 
-            <div className="space-y-4 col-span-2 md:col-span-1">
+            {/* <div className="space-y-4 col-span-2 md:col-span-1">
               <h4 className="font-mono text-[9px] uppercase tracking-[0.3em] text-teal">Connect</h4>
               <ul className="space-y-2 text-xs text-muted/60 font-light">
                 <li><a href="mailto:hello@majismart.co" className="hover:text-teal-bright transition-colors">Email</a></li>
                 <li><a href="#" className="hover:text-teal-bright transition-colors">LinkedIn</a></li>
                 <li><a href="#" className="hover:text-teal-bright transition-colors">Twitter</a></li>
               </ul>
-            </div>
+            </div> */}
           </div>
         </div>
 

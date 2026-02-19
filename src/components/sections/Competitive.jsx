@@ -82,6 +82,16 @@ export default function Competitive() {
         background: 'var(--navy)',
       }}
     >
+      <style>{`
+        @media (max-width: 1024px) {
+          .competitive-layout { grid-template-columns: 1fr !important; gap: 40px !important; }
+          .comp-table { overflow-x: auto; }
+          .comp-table table { min-width: 600px; }
+        }
+        @media (max-width: 600px) {
+          .moat-item { padding: 12px 14px !important; font-size: 0.72rem !important; }
+        }
+      `}</style>
       <div
         className="section-label reveal"
         style={{

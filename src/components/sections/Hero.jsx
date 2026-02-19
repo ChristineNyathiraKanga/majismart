@@ -6,19 +6,21 @@ export default function Hero() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      // Set initial state for hero elements
+      gsap.set(['.hero-eyebrow', '.hero-title', '.hero-sub', '.hero-desc', '.hero-stats', '.hero-actions', '.scroll-hint'], {
+        opacity: 0,
+        y: 30,
+      })
+
       // Hero entrance animation
       const tl = gsap.timeline({ delay: 0.3 })
-      tl.from('.hero-eyebrow', { opacity: 0, y: 30, duration: 0.7, ease: 'power3.out' })
-        .from('.hero-title', { opacity: 0, y: 50, duration: 0.9, ease: 'power3.out' }, '-=0.4')
-        .from('.hero-sub', { opacity: 0, y: 30, duration: 0.7, ease: 'power3.out' }, '-=0.5')
-        .from('.hero-desc', { opacity: 0, y: 20, duration: 0.7, ease: 'power3.out' }, '-=0.5')
-        .from('.hero-stats', { opacity: 0, y: 20, duration: 0.7, ease: 'power3.out' }, '-=0.4')
-        .from('.hero-actions', { opacity: 0, y: 20, duration: 0.7, ease: 'power3.out' }, '-=0.4')
-        .from('.scroll-hint', { opacity: 0, duration: 0.6 }, '-=0.2')
-
-      // Remove .reveal opacity:0 for hero elements
-      const heroReveals = containerRef.current.querySelectorAll('.reveal')
-      heroReveals.forEach(el => el.style.opacity = 1)
+      tl.to('.hero-eyebrow', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' })
+        .to('.hero-title', { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }, '-=0.4')
+        .to('.hero-sub', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.5')
+        .to('.hero-desc', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.5')
+        .to('.hero-stats', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.4')
+        .to('.hero-actions', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.4')
+        .to('.scroll-hint', { opacity: 1, y: 0, duration: 0.6 }, '-=0.2')
     }, containerRef)
 
     return () => ctx.revert()
@@ -117,7 +119,7 @@ export default function Hero() {
       >
         {/* Eyebrow */}
         <div
-          className="hero-eyebrow reveal"
+          className="hero-eyebrow"
           style={{
             display: 'inline-flex',
             alignItems: 'center',
@@ -148,7 +150,7 @@ export default function Hero() {
 
         {/* Title */}
         <h1
-          className="hero-title reveal"
+          className="hero-title"
           style={{
             fontFamily: "'DM Serif Display', serif",
             fontSize: 'clamp(3rem, 6.5vw, 5.5rem)',
@@ -328,28 +330,11 @@ export default function Hero() {
           >
             Explore the Opportunity ↓
           </button>
-          <button
-            onClick={() => scrollToSection('cta')}
-            className="btn-ghost"
-            style={{
-              background: 'transparent',
-              color: 'var(--muted)',
-              border: '1px solid var(--border)',
-              padding: '14px 28px',
-              borderRadius: '6px',
-              fontSize: '0.85rem',
-              fontFamily: "'DM Sans', sans-serif",
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-            }}
-          >
-            hello@majismart.co
-          </button>
         </div>
       </div>
 
       {/* Scroll Hint */}
-      <div
+      {/* <div
         className="scroll-hint"
         style={{
           position: 'absolute',
@@ -374,7 +359,7 @@ export default function Hero() {
           }}
         />
         Scroll
-      </div>
+      </div> */}
     </section>
   )
 }

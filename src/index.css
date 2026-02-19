@@ -38,6 +38,16 @@
     cursor: none;
   }
 
+  /* Show default cursor on touch devices */
+  @media (pointer: coarse), (hover: none) {
+    body {
+      cursor: auto;
+    }
+    .cursor, .cursor-ring {
+      display: none !important;
+    }
+  }
+
   ::selection {
     @apply bg-teal/30 text-teal-bright;
   }

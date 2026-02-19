@@ -60,6 +60,15 @@ export default function Solution() {
         overflow: 'hidden',
       }}
     >
+      <style>{`
+        @media (max-width: 1024px) {
+          .solution-steps { grid-template-columns: repeat(2, 1fr) !important; gap: 24px !important; }
+        }
+        @media (max-width: 600px) {
+          .solution-steps { grid-template-columns: 1fr !important; }
+          .step-card { padding: 24px 16px 32px !important; }
+        }
+      `}</style>
       <div
         className="section-label reveal"
         style={{

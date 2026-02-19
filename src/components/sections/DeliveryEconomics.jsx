@@ -71,6 +71,15 @@ export default function DeliveryEconomics() {
         background: 'linear-gradient(180deg, var(--navy-mid) 0%, var(--navy) 100%)',
       }}
     >
+      <style>{`
+        @media (max-width: 1024px) {
+          .delivery-grid { grid-template-columns: 1fr 1fr !important; }
+        }
+        @media (max-width: 600px) {
+          .delivery-grid { grid-template-columns: 1fr !important; }
+          .delivery-card { padding: 28px 20px !important; }
+        }
+      `}</style>
       <div
         className="section-label reveal"
         style={{

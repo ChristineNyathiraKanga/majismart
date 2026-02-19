@@ -72,6 +72,21 @@ export default function Market() {
         background: 'var(--navy)',
       }}
     >
+      <style>{`
+        @media (max-width: 1024px) {
+          .market-layout { grid-template-columns: 1fr !important; gap: 60px !important; }
+          .tam-visual { width: 280px !important; height: 280px !important; }
+          .tam-ring.mid { inset: 40px !important; }
+          .tam-ring.inner { inset: 90px !important; }
+        }
+        @media (max-width: 768px) {
+          .cities-grid { grid-template-columns: 1fr 1fr !important; }
+        }
+        @media (max-width: 500px) {
+          .cities-grid { grid-template-columns: 1fr !important; }
+          .tam-visual { width: 240px !important; height: 240px !important; }
+        }
+      `}</style>
       <div
         className="section-label reveal"
         style={{

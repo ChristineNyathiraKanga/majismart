@@ -50,6 +50,15 @@ export default function BusinessModel() {
         background: 'var(--navy-mid)',
       }}
     >
+      <style>{`
+        @media (max-width: 1024px) {
+          .revenue-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+        @media (max-width: 600px) {
+          .revenue-grid { grid-template-columns: 1fr !important; }
+          .revenue-card { padding: 28px 20px !important; }
+        }
+      `}</style>
       <div
         className="section-label reveal"
         style={{
