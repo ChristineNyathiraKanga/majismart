@@ -22,8 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-index.html
+*index.html
 
 
 #pdf
-MajiSmart_Pitch_Deck_1.pdf
+*MajiSmart_Pitch_Deck_1.pdf
