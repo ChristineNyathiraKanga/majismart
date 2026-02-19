@@ -25,7 +25,6 @@ export default function Market() {
 
       gsap.set('.reveal', { opacity: 0, y: 40 })
 
-      // TAM circles scale in
       ScrollTrigger.create({
         trigger: '.tam-visual',
         start: 'top 75%',
@@ -62,210 +61,55 @@ export default function Market() {
     <section
       id="market"
       ref={containerRef}
-      style={{
-        minHeight: '100vh',
-        padding: '120px 80px',
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        background: 'var(--navy)',
-      }}
+      className="min-h-screen px-6 md:px-10 lg:px-20 py-24 lg:py-32 relative flex flex-col justify-center bg-navy"
     >
-      <style>{`
-        @media (max-width: 1024px) {
-          .market-layout { grid-template-columns: 1fr !important; gap: 60px !important; }
-          .tam-visual { width: 280px !important; height: 280px !important; }
-          .tam-ring.mid { inset: 40px !important; }
-          .tam-ring.inner { inset: 90px !important; }
-        }
-        @media (max-width: 768px) {
-          .cities-grid { grid-template-columns: 1fr 1fr !important; }
-        }
-        @media (max-width: 500px) {
-          .cities-grid { grid-template-columns: 1fr !important; }
-          .tam-visual { width: 240px !important; height: 240px !important; }
-        }
-      `}</style>
-      <div
-        className="section-label reveal"
-        style={{
-          fontFamily: "'Space Mono', monospace",
-          fontSize: '0.65rem',
-          letterSpacing: '0.3em',
-          color: 'var(--teal)',
-          textTransform: 'uppercase',
-          marginBottom: '18px',
-          opacity: 0.8,
-        }}
-      >
+      <div className="font-mono text-[0.65rem] tracking-[0.3em] text-teal uppercase mb-4 opacity-80 reveal">
         Market Opportunity
       </div>
 
-      <h2
-        className="reveal"
-        style={{
-          fontFamily: "'DM Serif Display', serif",
-          fontSize: 'clamp(2rem, 4vw, 3.2rem)',
-          lineHeight: 1.15,
-          marginBottom: '60px',
-          maxWidth: '800px',
-        }}
-      >
+      <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] leading-tight mb-12 lg:mb-16 max-w-[800px] reveal">
         A massive, underserved market<br />with proven digital payment rails
       </h2>
 
-      <div
-        className="market-layout"
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '80px',
-          alignItems: 'center',
-        }}
-      >
+      <div className="market-layout grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
         {/* TAM Visual */}
-        <div
-          className="tam-visual reveal"
-          style={{
-            position: 'relative',
-            width: '360px',
-            height: '360px',
-            margin: '0 auto',
-          }}
-        >
-          <div
-            className="tam-ring outer"
-            style={{
-              position: 'absolute',
-              inset: 0,
-              borderRadius: '50%',
-              border: '1px solid rgba(10,147,150,0.25)',
-              background: 'rgba(10,147,150,0.04)',
-            }}
-          />
-          <div
-            className="tam-ring mid"
-            style={{
-              position: 'absolute',
-              inset: '50px',
-              borderRadius: '50%',
-              border: '1px solid rgba(10,147,150,0.4)',
-              background: 'rgba(10,147,150,0.08)',
-            }}
-          />
-          <div
-            className="tam-ring inner"
-            style={{
-              position: 'absolute',
-              inset: '120px',
-              borderRadius: '50%',
-              border: '1px solid var(--teal)',
-              background: 'rgba(10,147,150,0.2)',
-            }}
-          />
-          <div
-            className="tam-label"
-            style={{
-              position: 'absolute',
-              fontFamily: "'Space Mono', monospace",
-              textAlign: 'center',
-              top: '22px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-            }}
-          >
-            <span style={{ fontFamily: "'DM Serif Display', serif", fontSize: '1.1rem', color: 'var(--teal-bright)', display: 'block' }}>$1B+</span>
-            <span style={{ fontSize: '0.55rem', letterSpacing: '0.15em', color: 'var(--muted)', textTransform: 'uppercase' }}>TAM</span>
+        <div className="tam-visual relative w-60 h-60 sm:w-72 sm:h-72 lg:w-[360px] lg:h-[360px] mx-auto reveal">
+          <div className="tam-ring outer absolute inset-0 rounded-full border border-teal/25 bg-teal/5" />
+          <div className="tam-ring mid absolute inset-10 lg:inset-[50px] rounded-full border border-teal/40 bg-teal/10" />
+          <div className="tam-ring inner absolute inset-20 lg:inset-[120px] rounded-full border border-teal bg-teal/20" />
+          
+          <div className="tam-label absolute font-mono text-center top-4 lg:top-6 left-1/2 -translate-x-1/2">
+            <span className="font-display text-lg text-teal-bright block">$1B+</span>
+            <span className="text-[0.55rem] tracking-[0.15em] text-muted uppercase">TAM</span>
           </div>
-          <div
-            className="tam-label"
-            style={{
-              position: 'absolute',
-              fontFamily: "'Space Mono', monospace",
-              textAlign: 'center',
-              top: '72px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-            }}
-          >
-            <span style={{ fontFamily: "'DM Serif Display', serif", fontSize: '1.1rem', color: 'var(--teal-bright)', display: 'block' }}>$280M</span>
-            <span style={{ fontSize: '0.55rem', letterSpacing: '0.15em', color: 'var(--muted)', textTransform: 'uppercase' }}>SAM</span>
+          <div className="tam-label absolute font-mono text-center top-14 lg:top-[72px] left-1/2 -translate-x-1/2">
+            <span className="font-display text-lg text-teal-bright block">$280M</span>
+            <span className="text-[0.55rem] tracking-[0.15em] text-muted uppercase">SAM</span>
           </div>
-          <div
-            className="tam-label"
-            style={{
-              position: 'absolute',
-              fontFamily: "'Space Mono', monospace",
-              textAlign: 'center',
-              top: '142px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-            }}
-          >
-            <span style={{ fontFamily: "'DM Serif Display', serif", fontSize: '1.1rem', color: 'var(--teal-bright)', display: 'block' }}>$18M</span>
-            <span style={{ fontSize: '0.55rem', letterSpacing: '0.15em', color: 'var(--muted)', textTransform: 'uppercase' }}>SOM</span>
+          <div className="tam-label absolute font-mono text-center top-28 lg:top-[142px] left-1/2 -translate-x-1/2">
+            <span className="font-display text-lg text-teal-bright block">$18M</span>
+            <span className="text-[0.55rem] tracking-[0.15em] text-muted uppercase">SOM</span>
           </div>
         </div>
 
         <div>
-          <p style={{ fontSize: '0.85rem', color: 'var(--muted)', marginBottom: '28px', lineHeight: 1.7 }}>
+          <p className="text-sm text-muted mb-7 leading-relaxed">
             Rollout cities unlock progressively — starting with Nairobi's 1.1M households as the proving ground before scaling the playbook across Kenya.
           </p>
-          <div
-            className="cities-grid"
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: '16px',
-            }}
-          >
+          <div className="cities-grid grid grid-cols-1 sm:grid-cols-2 gap-4">
             {cities.map((city, idx) => (
               <div
                 key={idx}
-                className="city-card reveal"
-                style={{
-                  background: 'var(--navy-card)',
-                  border: '1px solid var(--border)',
-                  borderRadius: '8px',
-                  padding: '24px',
-                  transition: 'all 0.3s',
-                  position: 'relative',
-                  overflow: 'hidden',
-                }}
+                className="city-card bg-navy-card border border-border rounded-lg p-6 transition-all hover:border-teal reveal"
               >
-                <span
-                  className="city-phase"
-                  style={{
-                    fontFamily: "'Space Mono', monospace",
-                    fontSize: '0.58rem',
-                    letterSpacing: '0.2em',
-                    color: 'var(--gold)',
-                    textTransform: 'uppercase',
-                    marginBottom: '8px',
-                    display: 'block',
-                  }}
-                >
+                <span className="font-mono text-[0.58rem] tracking-[0.2em] text-gold uppercase mb-2 block">
                   {city.phase}
                 </span>
-                <div
-                  className="city-name"
-                  style={{
-                    fontFamily: "'DM Serif Display', serif",
-                    fontSize: '1.4rem',
-                    marginBottom: '8px',
-                  }}
-                >
+                <div className="font-display text-xl lg:text-2xl mb-2">
                   {city.name}
                 </div>
-                <div
-                  className="city-pop"
-                  style={{
-                    fontSize: '0.78rem',
-                    color: 'var(--muted)',
-                  }}
-                >
-                  <strong style={{ color: 'var(--teal-light)' }}>{city.pop}</strong> · {city.households}
+                <div className="text-sm text-muted">
+                  <strong className="text-teal-light">{city.pop}</strong> · {city.households}
                 </div>
               </div>
             ))}

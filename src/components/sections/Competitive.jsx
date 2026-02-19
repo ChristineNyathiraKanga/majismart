@@ -1,13 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import {
-  ShieldCheck,
-  MapPinned,
-  RefreshCw,
-  Building2,
-  Zap,
-} from "lucide-react";
+import { ShieldCheck, MapPinned, RefreshCw, Building2, Zap } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -43,240 +37,88 @@ export default function Competitive() {
     { name: 'PowWater', drink: true, refill: false, app: true, mpesa: true, subs: false, vendorQA: false, cityRollout: false },
     { name: 'Balozy', drink: true, refill: true, app: false, mpesa: true, subs: false, vendorQA: false, cityRollout: false },
     { name: 'Uber/Generic', drink: true, refill: true, app: false, mpesa: true, subs: false, vendorQA: false, cityRollout: false },
-   ]
+  ]
 
   const moats = [
-    {
-      icon: ShieldCheck,
-      text: "Vendor verification + brand authenticity controls",
-    },
-    {
-      icon: MapPinned,
-      text: "City-by-city vendor network — proprietary registry",
-    },
-    {
-      icon: RefreshCw,
-      text: "Scheduled refills + household water profiles",
-    },
-    {
-      icon: Building2,
-      text: "Estate & office SLA channel lock-in",
-    },
-    {
-      icon: Zap,
-      text: "E-bike micro-depot economics — unbeatable delivery margin",
-    },
-  ];
+    { icon: ShieldCheck, text: 'Vendor verification + brand authenticity controls' },
+    { icon: MapPinned, text: 'City-by-city vendor network — proprietary registry' },
+    { icon: RefreshCw, text: 'Scheduled refills + household water profiles' },
+    { icon: Building2, text: 'Estate & office SLA channel lock-in' },
+    { icon: Zap, text: 'E-bike micro-depot economics — unbeatable delivery margin' },
+  ]
 
   return (
     <section
       id="competitive"
       ref={containerRef}
-      style={{
-        minHeight: '100vh',
-        padding: '120px 80px',
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        background: 'var(--navy)',
-      }}
+      className="min-h-screen px-6 md:px-10 lg:px-20 py-24 lg:py-32 relative flex flex-col justify-center bg-navy"
     >
-      <style>{`
-        @media (max-width: 1024px) {
-          .competitive-layout { grid-template-columns: 1fr !important; gap: 40px !important; }
-          .comp-table { overflow-x: auto; }
-          .comp-table table { min-width: 600px; }
-        }
-        @media (max-width: 600px) {
-          .moat-item { padding: 12px 14px !important; font-size: 0.72rem !important; }
-        }
-      `}</style>
-      <div
-        className="section-label reveal"
-        style={{
-          fontFamily: "'Space Mono', monospace",
-          fontSize: '0.65rem',
-          letterSpacing: '0.3em',
-          color: 'var(--teal)',
-          textTransform: 'uppercase',
-          marginBottom: '18px',
-          opacity: 0.8,
-        }}
-      >
+      <div className="font-mono text-[0.65rem] tracking-[0.3em] text-teal uppercase mb-4 opacity-80 reveal">
         Competitive Landscape & Moat
       </div>
 
-      <h2
-        className="reveal"
-        style={{
-          fontFamily: "'DM Serif Display', serif",
-          fontSize: 'clamp(2rem, 4vw, 3.2rem)',
-          lineHeight: 1.15,
-          marginBottom: '60px',
-          maxWidth: '800px',
-        }}
-      >
+      <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] leading-tight mb-12 lg:mb-16 max-w-[800px] reveal">
         We win by being water's vertical operator —<br />not a logistics generalist
       </h2>
 
-      <div
-        className="competitive-layout"
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '2fr 1fr',
-          gap: '70px',
-        }}
-      >
-        <div
-            className="comp-table reveal"
-            style={{
-              background: 'var(--navy-card)',
-              border: '1px solid var(--border)',
-              borderRadius: '12px',
-              overflowX: 'auto',
-              overflowY: 'hidden',
-            }}
-          >
-            <table
-              style={{
-                width: '100%',
-                minWidth: '950px',
-                borderCollapse: 'collapse',
-              }}
-            >
-              <thead>
-                <tr
-                  style={{
-                    fontFamily: "'Space Mono', monospace",
-                    fontSize: '0.58rem',
-                    letterSpacing: '0.15em',
-                    color: 'var(--muted)',
-                    textTransform: 'uppercase',
-                    borderBottom: '1px solid var(--border)',
-                  }}
-                >
-                  <th style={{ padding: '14px 18px', textAlign: 'left' }}>Platform</th>
-                  <th style={{ padding: '14px 18px', textAlign: 'center' }}>Drinking Water</th>
-                  <th style={{ padding: '14px 18px', textAlign: 'center' }}>Bulk Water</th>
-                  <th style={{ padding: '14px 18px', textAlign: 'center' }}>App + Tracking</th>
-                  <th style={{ padding: '14px 18px', textAlign: 'center' }}>M-Pesa</th>
-                  <th style={{ padding: '14px 18px', textAlign: 'center' }}>Subscriptions</th>
-                  <th style={{ padding: '14px 18px', textAlign: 'center' }}>Vendor QA</th>
-                  <th style={{ padding: '14px 18px', textAlign: 'center' }}>City Rollout</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {competitors.map((comp, idx) => {
-                  const isFirst = idx === 0;
-
-                  const renderValue = (value) => (value ? '✓' : '-');
-
-                  return (
-                    <tr
-                      key={idx}
-                      style={{
-                        borderBottom: '1px solid var(--border)',
-                        background: isFirst
-                          ? 'rgba(0, 200, 120, 0.08)'
-                          : comp.highlight
-                          ? 'rgba(10,147,150,0.12)'
-                          : 'transparent',
-                      }}
-                    >
+      <div className="competitive-layout grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-10 lg:gap-16">
+        <div className="comp-table bg-navy-card border border-border rounded-xl overflow-x-auto reveal">
+          <table className="w-full min-w-[700px]">
+            <thead>
+              <tr className="font-mono text-[0.58rem] tracking-[0.15em] text-muted uppercase border-b border-border">
+                <th className="p-4 text-left">Platform</th>
+                <th className="p-4 text-center">Drinking Water</th>
+                <th className="p-4 text-center">Bulk Water</th>
+                <th className="p-4 text-center">App + Tracking</th>
+                <th className="p-4 text-center">M-Pesa</th>
+                <th className="p-4 text-center">Subscriptions</th>
+                <th className="p-4 text-center">Vendor QA</th>
+                <th className="p-4 text-center">City Rollout</th>
+              </tr>
+            </thead>
+            <tbody>
+              {competitors.map((comp, idx) => {
+                const isFirst = idx === 0
+                return (
+                  <tr
+                    key={idx}
+                    className={`border-b border-border ${isFirst ? 'bg-green/10' : ''}`}
+                  >
+                    <td className={`p-4 ${isFirst ? 'font-display text-base text-green' : 'text-sm text-white'}`}>
+                      {comp.name}
+                    </td>
+                    {[comp.drink, comp.refill, comp.app, comp.mpesa, comp.subs, comp.vendorQA, comp.cityRollout].map((val, i) => (
                       <td
-                        style={{
-                          padding: '14px 18px',
-                          fontFamily: isFirst
-                            ? "'DM Serif Display', serif"
-                            : 'inherit',
-                          fontSize: isFirst ? '1rem' : '0.8rem',
-                          color: isFirst ? 'var(--green)' : 'var(--white)',
-                        }}
+                        key={i}
+                        className={`p-4 text-center text-sm ${isFirst ? 'text-green font-semibold' : val ? 'text-teal-bright' : 'text-muted/40'}`}
                       >
-                        {comp.name}
+                        {val ? '✓' : '—'}
                       </td>
-
-                      {[
-                        comp.drink,
-                        comp.refill,
-                        comp.app,
-                        comp.mpesa,
-                        comp.subs,
-                        comp.vendorQA,
-                        comp.cityRollout,
-                      ].map((value, i) => (
-                        <td
-                          key={i}
-                          style={{
-                            padding: '14px 18px',
-                            textAlign: 'center',
-                            fontSize: '0.75rem',
-                            color: isFirst ? 'var(--green)' : 'var(--teal-bright)',
-                            fontWeight: isFirst ? '600' : '400',
-                          }}
-                        >
-                          {renderValue(value)}
-                        </td>
-                      ))}
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-
+                    ))}
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
 
         <div className="moat-list">
-          <div
-            className="moat-header reveal"
-            style={{
-              fontFamily: "'Space Mono', monospace",
-              fontSize: '0.6rem',
-              letterSpacing: '0.2em',
-              color: 'var(--teal)',
-              textTransform: 'uppercase',
-              marginBottom: '24px',
-            }}
-          >
+          <div className="font-mono text-[0.6rem] tracking-[0.2em] text-teal uppercase mb-6 reveal">
             Our Moat
           </div>
-
           {moats.map((moat, idx) => {
-            const Icon = moat.icon;
-
+            const Icon = moat.icon
             return (
               <div
                 key={idx}
-                className="moat-item reveal"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "14px",
-                  background: "var(--navy-card)",
-                  border: "1px solid var(--border)",
-                  borderLeft: "3px solid var(--teal)",
-                  borderRadius: "0 8px 8px 0",
-                  padding: "14px 18px",
-                  marginBottom: "12px",
-                  fontSize: "0.78rem",
-                  color: "rgba(176,200,224,0.8)",
-                  transition: "all 0.3s",
-                }}
+                className="moat-item flex items-center gap-3.5 bg-navy-card border border-border border-l-[3px] border-l-teal rounded-r-lg py-3.5 px-4 mb-3 text-sm text-white/80 transition-all hover:border-l-teal-bright hover:text-white hover:translate-x-1 reveal"
               >
-                <Icon
-                  size={18}
-                  strokeWidth={1.8}
-                  color="var(--teal-bright)"
-                />
-
+                <Icon size={18} strokeWidth={1.8} className="text-teal-bright flex-shrink-0" />
                 <span>{moat.text}</span>
               </div>
-            );
+            )
           })}
         </div>
-
       </div>
     </section>
   )

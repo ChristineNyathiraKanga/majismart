@@ -40,121 +40,43 @@ export default function BusinessModel() {
     <section
       id="business"
       ref={containerRef}
-      style={{
-        minHeight: '100vh',
-        padding: '120px 80px',
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        background: 'var(--navy-mid)',
-      }}
+      className="min-h-screen px-6 md:px-10 lg:px-20 py-24 lg:py-32 relative flex flex-col justify-center bg-navy-mid"
     >
-      <style>{`
-        @media (max-width: 1024px) {
-          .revenue-grid { grid-template-columns: repeat(2, 1fr) !important; }
-        }
-        @media (max-width: 600px) {
-          .revenue-grid { grid-template-columns: 1fr !important; }
-          .revenue-card { padding: 28px 20px !important; }
-        }
-      `}</style>
-      <div
-        className="section-label reveal"
-        style={{
-          fontFamily: "'Space Mono', monospace",
-          fontSize: '0.65rem',
-          letterSpacing: '0.3em',
-          color: 'var(--teal)',
-          textTransform: 'uppercase',
-          marginBottom: '18px',
-          opacity: 0.8,
-        }}
-      >
+      <div className="font-mono text-[0.65rem] tracking-[0.3em] text-teal uppercase mb-4 opacity-80 reveal">
         Business Model
       </div>
 
-      <h2
-        className="reveal"
-        style={{
-          fontFamily: "'DM Serif Display', serif",
-          fontSize: 'clamp(2rem, 4vw, 3.2rem)',
-          lineHeight: 1.15,
-          marginBottom: '60px',
-          maxWidth: '800px',
-        }}
-      >
+      <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] leading-tight mb-12 lg:mb-16 max-w-[800px] reveal">
         Four revenue streams.<br />Minimum order: 1 × 20L bottle.
       </h2>
 
-      <div
-        className="revenue-grid"
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: '16px',
-          marginBottom: '32px',
-        }}
-      >
+      <div className="revenue-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {revenueStreams.map((stream, idx) => (
           <div
             key={idx}
-            className={`revenue-card reveal ${stream.variant}`}
-            style={{
-              background: 'var(--navy-card)',
-              border: `1px solid ${stream.variant === 'gold' ? 'rgba(233,196,106,0.4)' : stream.variant === 'green' ? 'rgba(45,198,83,0.3)' : 'var(--border)'}`,
-              borderRadius: '8px',
-              padding: '36px 28px',
-              transition: 'all 0.3s',
-              position: 'relative',
-              overflow: 'hidden',
-            }}
+            className={`revenue-card bg-navy-card rounded-lg p-7 lg:p-9 transition-all relative overflow-hidden reveal ${
+              stream.variant === 'gold' ? 'border border-gold/40' : stream.variant === 'green' ? 'border border-green/30' : 'border border-border'
+            }`}
           >
-            <span style={{ fontSize: '2rem', marginBottom: '20px', display: 'block' }}>{stream.icon}</span>
+            <span className="text-3xl mb-5 block">{stream.icon}</span>
             <span
-              style={{
-                fontFamily: "'Space Mono', monospace",
-                fontSize: '0.62rem',
-                letterSpacing: '0.15em',
-                textTransform: 'uppercase',
-                color: stream.variant === 'gold' ? 'var(--gold)' : stream.variant === 'green' ? 'var(--green)' : 'var(--teal)',
-                marginBottom: '12px',
-                display: 'block',
-              }}
+              className={`font-mono text-[0.62rem] tracking-[0.15em] uppercase mb-3 block ${
+                stream.variant === 'gold' ? 'text-gold' : stream.variant === 'green' ? 'text-green' : 'text-teal'
+              }`}
             >
               {stream.name}
             </span>
-            <div
-              style={{
-                fontFamily: "'DM Serif Display', serif",
-                fontSize: '1.4rem',
-                marginBottom: '8px',
-                lineHeight: 1.2,
-                whiteSpace: 'pre-line',
-              }}
-            >
+            <div className="font-display text-xl lg:text-2xl mb-2 leading-tight whitespace-pre-line">
               {stream.value}
             </div>
-            <p style={{ fontSize: '0.78rem', color: 'var(--muted)', lineHeight: 1.6 }}>{stream.sub}</p>
+            <p className="text-sm text-muted leading-relaxed">{stream.sub}</p>
           </div>
         ))}
       </div>
 
-      <div
-        className="model-note reveal"
-        style={{
-          background: 'rgba(10,147,150,0.08)',
-          border: '1px solid var(--border)',
-          borderRadius: '8px',
-          padding: '18px 28px',
-          fontSize: '0.82rem',
-          color: 'var(--teal-light)',
-          textAlign: 'center',
-          fontFamily: "'Space Mono', monospace",
-          letterSpacing: '0.04em',
-        }}
-      >
-        1×20L order: ~KES 50–60 gross contribution &nbsp;·&nbsp; 2×20L order: ~KES 80–95 gross contribution&nbsp;·&nbsp; <span style={{ color: 'var(--gold)' }}>Subscription + batching = path to profitability</span>
+      <div className="model-note bg-teal/10 border border-border rounded-lg px-6 py-4 text-center font-mono text-sm text-teal-light tracking-wide reveal">
+        1×20L order: ~KES 50–60 gross &nbsp;·&nbsp; 2×20L order: ~KES 80–95 gross&nbsp;·&nbsp; 
+        <span className="text-gold">Subscription + batching = path to profitability</span>
       </div>
     </section>
   )

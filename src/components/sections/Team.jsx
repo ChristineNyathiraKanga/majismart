@@ -35,28 +35,28 @@ export default function Team() {
       name: 'CEO / Founder',
       role: 'Product vision, fundraising, strategy',
       desc: 'Nairobi HQ',
-      gradient: 'linear-gradient(135deg, var(--teal) 0%, var(--teal-light) 100%)',
+      gradient: 'from-teal to-teal-light',
     },
     {
       initials: 'CTO',
       name: 'CTO / Tech Lead',
       role: 'App + backend + maps + dispatch + payments',
       desc: 'Consumer + Vendor apps',
-      gradient: 'linear-gradient(135deg, var(--gold) 0%, #f4d98c 100%)',
+      gradient: 'from-gold to-[#f4d98c]',
     },
     {
-      initials: ' Ops',
+      initials: 'Ops',
       name: 'Operations Manager',
-      role: ' Service levels, vendor QA, rider performance',
+      role: 'Service levels, vendor QA, rider performance',
       desc: 'City rollout lead',
-      gradient: 'linear-gradient(135deg, var(--green) 0%, #5ee17c 100%)',
+      gradient: 'from-green to-[#5ee17c]',
     },
     {
       initials: 'Sales',
       name: 'Sales Channel Manager',
       role: 'Estate + office + reseller partnerships',
       desc: 'Revenue channels',
-      gradient: 'linear-gradient(135deg, #6B8CAE 0%, #8fa5bf 100%)',
+      gradient: 'from-muted to-[#8fa5bf]',
     },
   ]
 
@@ -64,156 +64,47 @@ export default function Team() {
     <section
       id="team"
       ref={containerRef}
-      style={{
-        minHeight: '100vh',
-        padding: '120px 80px',
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        background: 'var(--navy-mid)',
-      }}
+      className="min-h-screen px-6 md:px-10 lg:px-20 py-24 lg:py-32 relative flex flex-col justify-center bg-navy-mid"
     >
-      <style>{`
-        @media (max-width: 1024px) {
-          .team-grid { grid-template-columns: repeat(2, 1fr) !important; }
-        }
-        @media (max-width: 600px) {
-          .team-grid { grid-template-columns: 1fr !important; }
-          .team-card { padding: 24px 16px !important; }
-          .agents-bar { flex-direction: column !important; gap: 12px !important; text-align: center; }
-        }
-      `}</style>
-      <div
-        className="section-label reveal"
-        style={{
-          fontFamily: "'Space Mono', monospace",
-          fontSize: '0.65rem',
-          letterSpacing: '0.3em',
-          color: 'var(--teal)',
-          textTransform: 'uppercase',
-          marginBottom: '18px',
-          opacity: 0.8,
-        }}
-      >
+      <div className="font-mono text-[0.65rem] tracking-[0.3em] text-teal uppercase mb-4 opacity-80 reveal">
         Team & Execution Plan
       </div>
 
-      <h2
-        className="reveal"
-        style={{
-          fontFamily: "'DM Serif Display', serif",
-          fontSize: 'clamp(2rem, 4vw, 3.2rem)',
-          lineHeight: 1.15,
-          marginBottom: '60px',
-          maxWidth: '800px',
-        }}
-      >
+      <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] leading-tight mb-12 lg:mb-16 max-w-[800px] reveal">
         Lean. Ops-first.<br />Built to scale city by city.
       </h2>
 
-      <div
-        className="team-grid"
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: '24px',
-          marginBottom: '32px',
-        }}
-      >
+      <div className="team-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {teamMembers.map((member, idx) => (
           <div
             key={idx}
-            className="team-card reveal"
-            style={{
-              background: 'var(--navy-card)',
-              border: '1px solid var(--border)',
-              borderRadius: '12px',
-              padding: '32px 24px',
-              textAlign: 'center',
-              transition: 'all 0.3s',
-            }}
+            className="team-card bg-navy-card border border-border rounded-xl p-6 lg:p-8 text-center transition-all hover:border-teal hover:-translate-y-1 reveal"
           >
             <div
-              className="team-avatar"
-              style={{
-                width: '64px',
-                height: '64px',
-                borderRadius: '50%',
-                background: member.gradient,
-                margin: '0 auto 20px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontFamily: "'DM Serif Display', serif",
-                fontSize: '1.2rem',
-                color: 'var(--navy)',
-              }}
+              className={`w-16 h-16 rounded-full bg-gradient-to-br ${member.gradient} mx-auto mb-5 flex items-center justify-center font-display text-xl text-navy`}
             >
               {member.initials}
             </div>
-            <div
-              className="team-name"
-              style={{
-                fontFamily: "'DM Serif Display', serif",
-                fontSize: '1.1rem',
-                marginBottom: '4px',
-              }}
-            >
+            <div className="font-display text-lg mb-1">
               {member.name}
             </div>
-            <div
-              className="team-role"
-              style={{
-                fontFamily: "'Space Mono', monospace",
-                fontSize: '0.6rem',
-                letterSpacing: '0.15em',
-                color: 'var(--teal)',
-                textTransform: 'uppercase',
-                marginBottom: '14px',
-              }}
-            >
+            <div className="font-mono text-[0.6rem] tracking-[0.15em] text-teal uppercase mb-3.5">
               {member.role}
             </div>
-            <p className="team-desc" style={{ fontSize: '0.75rem', color: 'rgba(176,200,224,0.65)', lineHeight: 1.6 }}>
+            <p className="text-xs text-white/65 leading-relaxed">
               {member.desc}
             </p>
           </div>
         ))}
       </div>
 
-      <div
-        className="agents-bar reveal"
-        style={{
-          background: 'rgba(233,196,106,0.06)',
-          border: '1px solid var(--border)',
-          borderRadius: '10px',
-          padding: '22px 28px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '24px',
-        }}
-      >
-        <div
-          style={{
-            fontFamily: "'DM Serif Display', serif",
-            fontSize: '1.15rem',
-            color: 'var(--gold)',
-          }}
-        >
-          + 5 Vendor Onboarding Agents
-        </div>
-        <div style={{ fontSize: '0.72rem', color: 'rgba(176,200,224,0.6)' }}>
-          Field activation · vendor compliance checks · Nairobi pilot zones ·
-          <span
-            style={{
-              fontFamily: "'Space Mono', monospace",
-              fontSize: '0.58rem',
-              color: 'var(--muted)',
-              marginLeft: '8px',
-            }}
-          >
-            Statutory costs budgeted: PAYE | AHL 3% | SHIF 2.75% | NSSF tiered (confirmed with payroll provider)
+      <div className="agents-bar bg-gold/5 border border-border rounded-xl p-5 lg:p-6 flex flex-col sm:flex-row items-center gap-6 reveal">
+        <span className="text-3xl">👥</span>
+        <div className="text-center sm:text-left">
+          <strong className="text-gold font-display text-lg block mb-1">+ 5 Vendor Onboarding Agents</strong>
+          <span className="text-sm text-muted">
+            Field activation · vendor compliance checks · Nairobi pilot zones · 
+            <span className="text-xs text-muted ml-1">Statutory costs budgeted: PAYE | AHL 3% | SHIF 2.75% | NSSF tiered</span>
           </span>
         </div>
       </div>

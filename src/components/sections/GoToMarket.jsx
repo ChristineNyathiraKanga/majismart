@@ -1,11 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import {
-  Home,
-  Building2,
-  Store,
-} from "lucide-react";
+import { Home, Building2, Store } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -35,25 +31,10 @@ export default function GoToMarket() {
   }, [])
 
   const channels = [
-    {
-      icon: Home,
-      name: "Residential Estates",
-      desc:
-        "Partner with property managers. Bulk deals + scheduled refills. Captive audience of 50–500 households per estate.",
-    },
-    {
-      icon: Building2,
-      name: "Offices & Co-working",
-      desc:
-        "3–10 bottles/week per office. High repeat, predictable logistics, easy SLA commitments.",
-    },
-    {
-      icon: Store,
-      name: "Retail Resellers",
-      desc:
-        "Kiosks and dukas as micro-pickup points. Reduces last-100m cost. Expands supply map.",
-    },
-  ];
+    { icon: Home, name: 'Residential Estates', desc: 'Partner with property managers. Bulk deals + scheduled refills. Captive audience of 50–500 households per estate.' },
+    { icon: Building2, name: 'Offices & Co-working', desc: '3–10 bottles/week per office. High repeat, predictable logistics, easy SLA commitments.' },
+    { icon: Store, name: 'Retail Resellers', desc: 'Kiosks and dukas as micro-pickup points. Reduces last-100m cost. Expands supply map.' },
+  ]
 
   const timeline = [
     { period: 'Day 1–30', text: 'Onboard 20+ vendors · Recruit 30 riders · Finalise app MVP · Select 3 pilot estates' },
@@ -65,190 +46,65 @@ export default function GoToMarket() {
     <section
       id="gtm"
       ref={containerRef}
-      style={{
-        minHeight: '100vh',
-        padding: '120px 80px',
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        background: 'var(--navy-mid)',
-      }}
+      className="min-h-screen px-6 md:px-10 lg:px-20 py-24 lg:py-32 relative flex flex-col justify-center bg-navy-mid"
     >
-      <style>{`
-        @media (max-width: 1024px) {
-          .gtm-layout { grid-template-columns: 1fr !important; gap: 40px !important; }
-        }
-        @media (max-width: 600px) {
-          .channel-item { padding: 20px !important; flex-direction: column !important; gap: 12px !important; }
-        }
-      `}</style>
-      <div
-        className="section-label reveal"
-        style={{
-          fontFamily: "'Space Mono', monospace",
-          fontSize: '0.65rem',
-          letterSpacing: '0.3em',
-          color: 'var(--teal)',
-          textTransform: 'uppercase',
-          marginBottom: '18px',
-          opacity: 0.8,
-        }}
-      >
+      <div className="font-mono text-[0.65rem] tracking-[0.3em] text-teal uppercase mb-4 opacity-80 reveal">
         Go-to-Market
       </div>
 
-      <h2
-        className="reveal"
-        style={{
-          fontFamily: "'DM Serif Display', serif",
-          fontSize: 'clamp(2rem, 4vw, 3.2rem)',
-          lineHeight: 1.15,
-          marginBottom: '60px',
-          maxWidth: '800px',
-        }}
-      >
+      <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] leading-tight mb-12 lg:mb-16 max-w-[800px] reveal">
         Estate-first. Office-second.<br />Lock channels before scaling supply.
       </h2>
 
-      <div
-        className="gtm-layout"
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '80px',
-        }}
-      >
-        <div className="channel-list" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      <div className="gtm-layout grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20">
+        <div className="channel-list flex flex-col gap-5">
           {channels.map((channel, idx) => {
             const Icon = channel.icon
             return (
-            <div
-              key={idx}
-              className="channel-item reveal"
-              style={{
-                background: 'var(--navy-card)',
-                border: '1px solid var(--border)',
-                borderRadius: '8px',
-                padding: '28px',
-                display: 'flex',
-                gap: '20px',
-                transition: 'all 0.3s',
-              }}
-            >
-              <div style={{ fontSize: '2rem', flexShrink: 0 }}><Icon size={32} /></div>
-              <div>
-                <div
-                  className="channel-name"
-                  style={{
-                    fontFamily: "'DM Serif Display', serif",
-                    fontSize: '1.15rem',
-                    marginBottom: '8px',
-                    color: 'var(--teal-bright)',
-                  }}
-                >
-                  {channel.name}
+              <div
+                key={idx}
+                className="channel-item bg-navy-card border border-border rounded-lg p-6 lg:p-7 flex flex-col sm:flex-row gap-4 lg:gap-5 transition-all hover:border-teal reveal"
+              >
+                <div className="text-teal-bright flex-shrink-0">
+                  <Icon size={32} />
                 </div>
-                <p className="channel-desc" style={{ fontSize: '0.83rem', color: 'rgba(176,200,224,0.7)', lineHeight: 1.65 }}>{channel.desc}</p>
+                <div>
+                  <div className="font-display text-lg lg:text-xl mb-2 text-teal-bright">
+                    {channel.name}
+                  </div>
+                  <p className="text-sm text-white/70 leading-relaxed">{channel.desc}</p>
+                </div>
               </div>
-            </div>
             )
           })}
         </div>
 
-        <div
-          className="timeline reveal"
-          style={{
-            position: 'relative',
-            paddingLeft: '28px',
-          }}
-        >
-          <div
-            style={{
-              content: "''",
-              position: 'absolute',
-              left: 0,
-              top: 0,
-              bottom: 0,
-              width: '2px',
-              background: 'linear-gradient(to bottom, var(--teal), var(--green))',
-            }}
-          />
-          <div
-            className="timeline-header"
-            style={{
-              fontFamily: "'Space Mono', monospace",
-              fontSize: '0.6rem',
-              letterSpacing: '0.2em',
-              color: 'var(--teal)',
-              textTransform: 'uppercase',
-              marginBottom: '32px',
-            }}
-          >
+        <div className="timeline relative pl-7 reveal">
+          <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-teal to-green" />
+          <div className="font-mono text-[0.6rem] tracking-[0.2em] text-teal uppercase mb-8">
             First 90 Days
           </div>
           {timeline.map((item, idx) => (
-            <div
-              key={idx}
-              className="timeline-item"
-              style={{
-                marginBottom: '32px',
-                position: 'relative',
-              }}
-            >
+            <div key={idx} className="timeline-item mb-8 relative">
               <div
-                style={{
-                  content: "''",
-                  position: 'absolute',
-                  left: '-35px',
-                  top: '5px',
-                  width: '16px',
-                  height: '16px',
-                  borderRadius: '50%',
-                  background: idx === timeline.length - 1 ? 'var(--green)' : 'var(--teal)',
-                  border: '3px solid var(--navy-mid)',
-                }}
+                className={`absolute -left-[35px] top-1.5 w-4 h-4 rounded-full border-[3px] border-navy-mid ${
+                  idx === timeline.length - 1 ? 'bg-green' : 'bg-teal'
+                }`}
               />
-              <div
-                className="timeline-day"
-                style={{
-                  fontFamily: "'Space Mono', monospace",
-                  fontSize: '0.72rem',
-                  color: 'var(--gold)',
-                  letterSpacing: '0.1em',
-                  marginBottom: '8px',
-                }}
-              >
+              <div className="font-mono text-xs text-gold tracking-wider mb-2">
                 {item.period}
               </div>
-              <p className="timeline-text" style={{ fontSize: '0.83rem', color: 'rgba(176,200,224,0.75)', lineHeight: 1.7 }}>{item.text}</p>
+              <p className="text-sm text-white/75 leading-relaxed">{item.text}</p>
             </div>
           ))}
-
         </div>
-        
       </div>
-      
-          <div
-            style={{
-              marginTop: '28px',
-              padding: '16px 20px',
-              background: 'rgba(10,147,150,0.08)',
-              borderRadius: '8px',
-              border: '1px solid var(--border)',
-            }}
-          >
-            <p
-              style={{
-                fontSize: '0.75rem',
-                color: 'var(--teal-light)',
-                fontFamily: "'Space Mono', monospace",
-                letterSpacing: '0.06em',
-              }}
-            >
-              Rider incentive stack: Guaranteed floor (D1–28) · Streak bonuses · Referral rewards · Priority dispatch for top performers
-            </p>
-          </div>
+
+      <div className="mt-7 p-4 lg:p-5 bg-teal/10 rounded-lg border border-border reveal">
+        <p className="font-mono text-xs text-teal-light tracking-wide">
+          Rider incentive stack: Guaranteed floor (D1–28) · Streak bonuses · Referral rewards · Priority dispatch for top performers
+        </p>
+      </div>
     </section>
   )
 }

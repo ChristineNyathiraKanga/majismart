@@ -49,129 +49,37 @@ export default function Solution() {
     <section
       id="solution"
       ref={containerRef}
-      style={{
-        minHeight: '100vh',
-        padding: '120px 80px',
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        background: 'var(--navy-mid)',
-        overflow: 'hidden',
-      }}
+      className="min-h-screen px-6 md:px-10 lg:px-20 py-24 lg:py-32 relative flex flex-col justify-center bg-navy-mid overflow-hidden"
     >
-      <style>{`
-        @media (max-width: 1024px) {
-          .solution-steps { grid-template-columns: repeat(2, 1fr) !important; gap: 24px !important; }
-        }
-        @media (max-width: 600px) {
-          .solution-steps { grid-template-columns: 1fr !important; }
-          .step-card { padding: 24px 16px 32px !important; }
-        }
-      `}</style>
-      <div
-        className="section-label reveal"
-        style={{
-          fontFamily: "'Space Mono', monospace",
-          fontSize: '0.65rem',
-          letterSpacing: '0.3em',
-          color: 'var(--teal)',
-          textTransform: 'uppercase',
-          marginBottom: '18px',
-          opacity: 0.8,
-        }}
-      >
+      <div className="font-mono text-[0.65rem] tracking-[0.3em] text-teal uppercase mb-4 opacity-80 reveal">
         The Solution
       </div>
 
-      <h2
-        className="reveal"
-        style={{
-          fontFamily: "'DM Serif Display', serif",
-          fontSize: 'clamp(2rem, 4vw, 3.2rem)',
-          lineHeight: 1.15,
-          marginBottom: '60px',
-          maxWidth: '800px',
-        }}
-      >
+      <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] leading-tight mb-12 lg:mb-16 max-w-[800px] reveal">
         One app. Nearest vendor.<br />Nearest rider. Water in 60 min.
       </h2>
 
-      <div
-        className="solution-steps"
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: 0,
-          marginBottom: '40px',
-          position: 'relative',
-        }}
-      >
-        {/* Connecting line */}
-        <div
-          style={{
-            content: "''",
-            position: 'absolute',
-            top: '44px',
-            left: '12.5%',
-            right: '12.5%',
-            height: '1px',
-            background: 'linear-gradient(90deg, transparent, var(--teal), var(--green), transparent)',
-            zIndex: 0,
-          }}
-        />
+      <div className="solution-steps grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0 mb-10 relative">
+        {/* Connecting line - hidden on mobile */}
+        <div className="hidden lg:block absolute top-11 left-[12.5%] right-[12.5%] h-px bg-gradient-to-r from-transparent via-teal to-green" />
 
         {steps.map((step, idx) => (
           <div
             key={idx}
-            className="step-card reveal"
-            style={{
-              padding: '0 24px 40px',
-              textAlign: 'center',
-              position: 'relative',
-              zIndex: 1,
-            }}
+            className="step-card px-4 lg:px-6 pb-8 lg:pb-10 text-center relative z-10 reveal"
           >
             <div
-              className="step-num"
-              style={{
-                width: '56px',
-                height: '56px',
-                borderRadius: '50%',
-                background: 'var(--navy)',
-                border: `2px solid ${step.isGreen ? 'var(--green)' : 'var(--teal)'}`,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontFamily: "'Space Mono', monospace",
-                fontSize: '0.9rem',
-                color: step.isGreen ? 'var(--green)' : 'var(--teal-bright)',
-                margin: '0 auto 28px',
-                transition: 'all 0.3s',
-              }}
+              className={`w-14 h-14 rounded-full bg-navy border-2 flex items-center justify-center font-mono text-sm mx-auto mb-6 lg:mb-7 transition-all ${
+                step.isGreen ? 'border-green text-green' : 'border-teal text-teal-bright'
+              }`}
             >
               {step.num}
             </div>
-            <span style={{ fontSize: '2.2rem', marginBottom: '16px', display: 'block' }}>{step.icon}</span>
-            <div
-              className="step-title"
-              style={{
-                fontFamily: "'DM Serif Display', serif",
-                fontSize: '1.3rem',
-                marginBottom: '12px',
-                color: step.isGreen ? 'var(--green)' : 'var(--teal-bright)',
-              }}
-            >
+            <span className="text-4xl mb-4 block">{step.icon}</span>
+            <div className={`font-display text-xl lg:text-[1.3rem] mb-3 ${step.isGreen ? 'text-green' : 'text-teal-bright'}`}>
               {step.title}
             </div>
-            <p
-              className="step-body"
-              style={{
-                fontSize: '0.83rem',
-                color: 'rgba(176,200,224,0.7)',
-                lineHeight: 1.7,
-              }}
-            >
+            <p className="text-[0.83rem] text-white/70 leading-relaxed">
               {step.body}
             </p>
           </div>
@@ -179,39 +87,15 @@ export default function Solution() {
       </div>
 
       {/* Marquee */}
-      <div
-        className="marquee-wrap"
-        style={{
-          overflow: 'hidden',
-          borderTop: '1px solid var(--border)',
-          borderBottom: '1px solid var(--border)',
-          padding: '14px 0',
-          background: 'rgba(10,147,150,0.06)',
-          marginTop: '48px',
-        }}
-      >
-        <div
-          className="marquee-track"
-          style={{
-            display: 'flex',
-            gap: '60px',
-            animation: 'marquee 20s linear infinite',
-            whiteSpace: 'nowrap',
-          }}
-        >
+      <div className="overflow-hidden border-y border-border py-3.5 bg-teal/5 mt-12">
+        <div className="marquee-track flex gap-16 animate-[marquee_20s_linear_infinite] whitespace-nowrap">
           {[...marqueeItems, ...marqueeItems].map((item, idx) => (
             <span
               key={idx}
-              style={{
-                fontFamily: "'Space Mono', monospace",
-                fontSize: '0.7rem',
-                letterSpacing: '0.15em',
-                color: 'var(--teal-light)',
-                textTransform: 'uppercase',
-                flexShrink: 0,
-              }}
+              className={`font-mono text-xs tracking-widest uppercase ${
+                idx % marqueeItems.length === 0 ? 'text-teal' : 'text-muted'
+              }`}
             >
-              <span style={{ color: 'var(--teal)' }}>◆ </span>
               {item}
             </span>
           ))}
