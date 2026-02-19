@@ -49,7 +49,7 @@ export default function GoToMarket() {
     },
     {
       icon: Store,
-      name: "Retail Resellers (Dukas)",
+      name: "Retail Resellers",
       desc:
         "Kiosks and dukas as micro-pickup points. Reduces last-100m cost. Expands supply map.",
     },
@@ -112,7 +112,9 @@ export default function GoToMarket() {
         }}
       >
         <div className="channel-list" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          {channels.map((channel, idx) => (
+          {channels.map((channel, idx) => {
+            const Icon = channel.icon
+            return (
             <div
               key={idx}
               className="channel-item reveal"
@@ -126,7 +128,7 @@ export default function GoToMarket() {
                 transition: 'all 0.3s',
               }}
             >
-              <div className="channel-icon" style={{ fontSize: '2rem', flexShrink: 0 }}>{channel.icon}</div>
+              <div style={{ fontSize: '2rem', flexShrink: 0 }}><Icon size={32} /></div>
               <div>
                 <div
                   className="channel-name"
@@ -142,7 +144,8 @@ export default function GoToMarket() {
                 <p className="channel-desc" style={{ fontSize: '0.83rem', color: 'rgba(176,200,224,0.7)', lineHeight: 1.65 }}>{channel.desc}</p>
               </div>
             </div>
-          ))}
+            )
+          })}
         </div>
 
         <div

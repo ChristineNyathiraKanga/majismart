@@ -110,7 +110,7 @@ export default function Nav() {
           ))}
         </ul>
 
-        <button
+        {/* <button
           onClick={() => handleNavClick('cta')}
           style={{
             background: 'var(--teal)',
@@ -130,7 +130,7 @@ export default function Nav() {
           onMouseLeave={(e) => { e.target.style.background = 'var(--teal)'; e.target.style.transform = 'translateY(0)' }}
         >
           Get in Touch
-        </button>
+        </button> */}
 
         {/* Mobile Toggle */}
         <button
@@ -156,12 +156,12 @@ export default function Nav() {
             {link.label}
           </button>
         ))}
-        <button
+        {/* <button
           onClick={() => handleNavClick('cta')}
           className="mt-8 px-10 py-4 bg-teal text-white font-mono text-xs uppercase tracking-widest font-bold rounded"
         >
           Get in Touch
-        </button>
+        </button> */}
       </div>
     </>
   )

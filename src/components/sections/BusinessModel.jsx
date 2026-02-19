@@ -1,12 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import {
-  TrendingUp,
-  Truck,
-  Home,
-  Building2,
-} from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -35,36 +29,12 @@ export default function BusinessModel() {
     return () => ctx.revert()
   }, [])
 
-const revenueStreams = [
-  {
-    icon: TrendingUp,
-    name: "Platform Commission",
-    value: "10–12% at launch\n→ 12–18% at scale",
-    sub: "On each water order value",
-    variant: "teal",
-  },
-  {
-    icon: Truck,
-    name: "Delivery Margin",
-    value: "KES 50–120 fee\nminus rider payout",
-    sub: "Improved via batching + e-bikes",
-    variant: "teal",
-  },
-  {
-    icon: Home,
-    name: "Household Subscription",
-    value: "KES 199–349/mo",
-    sub: "Priority dispatch · refill scheduling · bundles",
-    variant: "gold",
-  },
-  {
-    icon: Building2,
-    name: "Vendor Subscription",
-    value: "KES 1,000–2,500/mo",
-    sub: "Promoted listing · analytics · SLA access",
-    variant: "green",
-  },
-];
+  const revenueStreams = [
+    { icon: '📈', name: 'Platform Commission', value: '10–12% at launch\n→ 12–18% at scale', sub: 'On each water order value', variant: 'teal' },
+    { icon: '🚚', name: 'Delivery Margin', value: 'KES 50–120 fee\nminus rider payout', sub: 'Improved via batching + e-bikes', variant: 'teal' },
+    { icon: '🏠', name: 'Household Subscription', value: 'KES 199–349/mo', sub: 'Priority dispatch · refill scheduling · bundles', variant: 'gold' },
+    { icon: '🏢', name: 'Vendor Subscription', value: 'KES 1,000–2,500/mo', sub: 'Promoted listing · analytics · SLA access', variant: 'green' },
+  ]
 
   return (
     <section
@@ -131,6 +101,7 @@ const revenueStreams = [
               overflow: 'hidden',
             }}
           >
+            <span style={{ fontSize: '2rem', marginBottom: '20px', display: 'block' }}>{stream.icon}</span>
             <span
               style={{
                 fontFamily: "'Space Mono', monospace",

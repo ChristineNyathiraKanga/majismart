@@ -4,22 +4,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// Add CSS for marquee animation
-const marqueeStyle = document.createElement('style')
-marqueeStyle.textContent = `
-  @keyframes marquee {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-50%);
-    }
-  }
-`
-if (typeof document !== 'undefined') {
-  document.head.appendChild(marqueeStyle)
-}
-
 export default function Solution() {
   const containerRef = useRef(null)
 
@@ -46,32 +30,11 @@ export default function Solution() {
   }, [])
 
   const steps = [
-    {
-      num: "01",
-      title: "Order",
-      body:
-        "Choose brand or 'best value'. Select quantity (min 1×20L). Pay via M-Pesa or card.",
-    },
-    {
-      num: "02",
-      title: "Match",
-      body:
-        "Algorithm routes to nearest stocked, verified vendor + nearest available rider.",
-    },
-    {
-      num: "03",
-      title: "Dispatch",
-      body:
-        "Bodaboda or e-bike rider picks up. Real-time GPS tracking sent to customer.",
-    },
-    {
-      num: "04",
-      title: "Delivered",
-      body:
-        "Quality-verified water arrives. Ratings collected. Refill subscription optionally activated.",
-      isGreen: true,
-    },
-  ];
+    { num: '01', icon: '📱', title: 'Order', body: "Choose brand or 'best value'. Select quantity (min 1×20L). Pay via M-Pesa or card." },
+    { num: '02', icon: '📍', title: 'Match', body: 'Algorithm routes to nearest stocked, verified vendor + nearest available rider.' },
+    { num: '03', icon: '🏍️', title: 'Dispatch', body: 'Bodaboda or e-bike rider picks up. Real-time GPS tracking sent to customer.' },
+    { num: '04', icon: '✅', title: 'Delivered', body: 'Quality-verified water arrives. Ratings collected. Refill subscription optionally activated.', isGreen: true },
+  ]
 
   const marqueeItems = [
     'Water-specific infrastructure:',
@@ -180,6 +143,7 @@ export default function Solution() {
             >
               {step.num}
             </div>
+            <span style={{ fontSize: '2.2rem', marginBottom: '16px', display: 'block' }}>{step.icon}</span>
             <div
               className="step-title"
               style={{
