@@ -1,32 +1,28 @@
 import { useEffect, useRef, useState } from 'react'
 import { useScroll } from '../../context/ScrollContext'
 import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Logo from '../ui/Logo'
+
+gsap.registerPlugin(ScrollTrigger)
 
 export default function Nav() {
   const { scrollTo } = useScroll()
-  const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const navRef = useRef(null)
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
-    }
-    window.addEventListener('scroll', handleScroll)
-    handleScroll() // Check initial state
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  // Simplified entrance
-  useEffect(() => {
-    gsap.set(navRef.current, { y: -20, opacity: 0 })
-    gsap.to(navRef.current, {
-      y: 0,
-      opacity: 1,
-      duration: 1,
-      ease: 'power3.out',
-      delay: 0.5
+    // Nav scroll effect
+    ScrollTrigger.create({
+      start: 'top -80',
+      onUpdate: (self) => {
+        if (navRef.current) {
+          navRef.current.style.background =
+            self.progress > 0
+              ? 'rgba(10,22,40,0.97)'
+              : 'linear-gradient(to bottom, rgba(10,22,40,0.95) 0%, transparent 100%)'
+        }
+      }
     })
   }, [])
 
@@ -40,7 +36,7 @@ export default function Nav() {
   ]
 
   const handleNavClick = (id) => {
-    scrollTo(`#${id}-section`)
+    scrollTo(`#${id}`)
     setMobileMenuOpen(false)
   }
 
@@ -48,59 +44,107 @@ export default function Nav() {
     <>
       <nav
         ref={navRef}
-        className={`fixed top-0 left-0 right-0 z-[999] transition-all duration-500 will-change-transform ${isScrolled
-          ? 'py-4 bg-navy-mid/90 backdrop-blur-xl border-b border-white/10 shadow-2xl'
-          : 'py-8 bg-transparent'
-          }`}
+        id="mainNav"
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          padding: '20px 60px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          background: 'linear-gradient(to bottom, rgba(10,22,40,0.95) 0%, transparent 100%)',
+          backdropFilter: 'blur(8px)',
+        }}
       >
-        <div className="container mx-auto px-6 flex items-center justify-between">
-          {/* Brand */}
-          <div
-            onClick={() => scrollTo('#hero-section')}
-            className="flex items-center gap-4 cursor-pointer group"
-          >
-            <Logo className="w-12 h-auto" />
-            <div className="flex flex-col">
-              <span className="font-display text-xl tracking-[0.2em] leading-none text-white">MAJISMART</span>
-              <span className="font-mono text-[8px] uppercase tracking-[0.4em] text-teal-light opacity-60">Water OS · Nairobi</span>
-            </div>
-          </div>
+        <a
+          href="#"
+          onClick={(e) => { e.preventDefault(); scrollTo('#hero') }}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            fontFamily: "'DM Sans', sans-serif",
+            fontWeight: 600,
+            fontSize: '1rem',
+            letterSpacing: '0.18em',
+            color: 'var(--white)',
+            textDecoration: 'none',
+          }}
+          className="nav-logo"
+        >
+          <Logo className="w-7" />
+          MAJI SMART
+        </a>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-10">
-            {navLinks.map((link) => (
-              <button
-                key={link.id}
-                onClick={() => handleNavClick(link.id)}
-                className="relative font-mono text-[10px] uppercase tracking-[0.2em] text-muted hover:text-white transition-colors group"
+        {/* Desktop Navigation */}
+        <ul
+          className="nav-links hidden lg:flex"
+          style={{
+            display: 'flex',
+            gap: '36px',
+            listStyle: 'none',
+          }}
+        >
+          {navLinks.map((link) => (
+            <li key={link.id}>
+              <a
+                href={`#${link.id}`}
+                onClick={(e) => { e.preventDefault(); handleNavClick(link.id) }}
+                style={{
+                  color: 'var(--muted)',
+                  textDecoration: 'none',
+                  fontSize: '0.78rem',
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  transition: 'color 0.2s',
+                }}
+                onMouseEnter={(e) => e.target.style.color = 'var(--teal-bright)'}
+                onMouseLeave={(e) => e.target.style.color = 'var(--muted)'}
               >
                 {link.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-teal-bright transition-all duration-500 group-hover:w-full" />
-              </button>
-            ))}
+              </a>
+            </li>
+          ))}
+        </ul>
 
-            <button
-              onClick={() => handleNavClick('cta')}
-              className="px-6 py-2 border border-teal/30 rounded-full font-mono text-[10px] uppercase tracking-widest text-teal-bright hover:bg-teal hover:text-navy hover:border-teal transition-all duration-500"
-            >
-              Investor Access
-            </button>
-          </div>
+        <button
+          onClick={() => handleNavClick('cta')}
+          style={{
+            background: 'var(--teal)',
+            color: 'white',
+            border: 'none',
+            padding: '9px 22px',
+            borderRadius: '4px',
+            fontSize: '0.8rem',
+            fontFamily: "'DM Sans', sans-serif",
+            fontWeight: 500,
+            letterSpacing: '0.05em',
+            cursor: 'pointer',
+            transition: 'background 0.2s, transform 0.15s',
+          }}
+          className="nav-cta hidden lg:block"
+          onMouseEnter={(e) => { e.target.style.background = 'var(--teal-bright)'; e.target.style.transform = 'translateY(-1px)' }}
+          onMouseLeave={(e) => { e.target.style.background = 'var(--teal)'; e.target.style.transform = 'translateY(0)' }}
+        >
+          Get in Touch
+        </button>
 
-          {/* Mobile Toggle */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden flex flex-col gap-1.5 p-2 relative z-[1001]"
-          >
-            <div className={`w-6 h-px bg-white transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-            <div className={`w-6 h-px bg-white transition-all duration-300 ${mobileMenuOpen ? 'opacity-0' : ''}`} />
-            <div className={`w-6 h-px bg-white transition-all duration-300 ${mobileMenuOpen ? '-rotate-45 -translate-y-px' : ''}`} />
-          </button>
-        </div>
+        {/* Mobile Toggle */}
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="lg:hidden flex flex-col gap-1.5 p-2 relative z-[1001]"
+        >
+          <div className={`w-6 h-px bg-white transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+          <div className={`w-6 h-px bg-white transition-all duration-300 ${mobileMenuOpen ? 'opacity-0' : ''}`} />
+          <div className={`w-6 h-px bg-white transition-all duration-300 ${mobileMenuOpen ? '-rotate-45 -translate-y-px' : ''}`} />
+        </button>
       </nav>
 
       {/* Mobile Menu Overlay */}
-      <div className={`lg:hidden fixed inset-0 z-[998] bg-navy flex flex-col items-center justify-center gap-8 transition-all duration-700 ${mobileMenuOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 -translate-y-full invisible pointer-events-none'
+      <div className={`lg:hidden fixed inset-0 z-[98] bg-navy flex flex-col items-center justify-center gap-8 transition-all duration-700 ${mobileMenuOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 -translate-y-full invisible pointer-events-none'
         }`}>
         {navLinks.map((link, idx) => (
           <button
@@ -114,7 +158,7 @@ export default function Nav() {
         ))}
         <button
           onClick={() => handleNavClick('cta')}
-          className="mt-8 px-10 py-4 bg-teal text-navy font-mono text-xs uppercase tracking-widest font-bold rounded-full"
+          className="mt-8 px-10 py-4 bg-teal text-white font-mono text-xs uppercase tracking-widest font-bold rounded"
         >
           Get in Touch
         </button>

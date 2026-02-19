@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 
 export default function Cursor() {
-  const dotRef = useRef(null)
+  const cursorRef = useRef(null)
   const ringRef = useRef(null)
   const [isVisible, setIsVisible] = useState(true)
-  const [isHovering, setIsHovering] = useState(false)
 
   useEffect(() => {
     // Check if touch device
@@ -20,66 +19,58 @@ export default function Cursor() {
       return
     }
 
-    const dot = dotRef.current
+    const cursor = cursorRef.current
     const ring = ringRef.current
-    if (!dot || !ring) return
+    if (!cursor || !ring) return
 
-    let mouseX = 0
-    let mouseY = 0
-    let ringX = 0
-    let ringY = 0
+    let mx = 0, my = 0, rx = 0, ry = 0
 
     const handleMouseMove = (e) => {
-      mouseX = e.clientX
-      mouseY = e.clientY
-
-      dot.style.left = `${mouseX}px`
-      dot.style.top = `${mouseY}px`
+      mx = e.clientX
+      my = e.clientY
+      cursor.style.left = mx - 5 + 'px'
+      cursor.style.top = my - 5 + 'px'
     }
 
-    const handleMouseEnter = () => setIsVisible(true)
-    const handleMouseLeave = () => setIsVisible(false)
+    const animateCursor = () => {
+      rx += (mx - rx - 18) * 0.12
+      ry += (my - ry - 18) * 0.12
+      ring.style.left = rx + 'px'
+      ring.style.top = ry + 'px'
+      requestAnimationFrame(animateCursor)
+    }
+    animateCursor()
 
-    const handleInteractiveEnter = () => setIsHovering(true)
-    const handleInteractiveLeave = () => setIsHovering(false)
-
-    // Animate ring with lag
-    const animateRing = () => {
-      const dx = mouseX - ringX
-      const dy = mouseY - ringY
-      const lag = 0.12
-
-      ringX += dx * lag
-      ringY += dy * lag
-
-      ring.style.left = `${ringX}px`
-      ring.style.top = `${ringY}px`
-
-      requestAnimationFrame(animateRing)
+    const handleMouseEnter = () => {
+      cursor.style.transform = 'scale(2.5)'
+      ring.style.width = '60px'
+      ring.style.height = '60px'
+      ring.style.opacity = '0.5'
     }
 
-    animateRing()
+    const handleMouseLeave = () => {
+      cursor.style.transform = 'scale(1)'
+      ring.style.width = '36px'
+      ring.style.height = '36px'
+      ring.style.opacity = '1'
+    }
 
     document.addEventListener('mousemove', handleMouseMove)
-    document.addEventListener('mouseenter', handleMouseEnter)
-    document.addEventListener('mouseleave', handleMouseLeave)
 
     // Add interactive element listeners
     const interactiveElements = document.querySelectorAll(
-      'a, button, [role="button"]'
+      'a, button, .problem-card, .revenue-card, .city-card, .team-card, .moat-item, .channel-item'
     )
     interactiveElements.forEach((el) => {
-      el.addEventListener('mouseenter', handleInteractiveEnter)
-      el.addEventListener('mouseleave', handleInteractiveLeave)
+      el.addEventListener('mouseenter', handleMouseEnter)
+      el.addEventListener('mouseleave', handleMouseLeave)
     })
 
     return () => {
       document.removeEventListener('mousemove', handleMouseMove)
-      document.removeEventListener('mouseenter', handleMouseEnter)
-      document.removeEventListener('mouseleave', handleMouseLeave)
       interactiveElements.forEach((el) => {
-        el.removeEventListener('mouseenter', handleInteractiveEnter)
-        el.removeEventListener('mouseleave', handleInteractiveLeave)
+        el.removeEventListener('mouseenter', handleMouseEnter)
+        el.removeEventListener('mouseleave', handleMouseLeave)
       })
     }
   }, [])
@@ -88,20 +79,8 @@ export default function Cursor() {
 
   return (
     <>
-      {/* Dot */}
-      <div
-        ref={dotRef}
-        className={`pointer-events-none fixed w-2.5 h-2.5 bg-teal-bright rounded-full -translate-x-1/2 -translate-y-1/2 transition-transform duration-100 z-50 ${
-          isHovering ? 'scale-[2.5]' : 'scale-100'
-        }`}
-      />
-      {/* Ring */}
-      <div
-        ref={ringRef}
-        className={`pointer-events-none fixed border border-teal rounded-full -translate-x-1/2 -translate-y-1/2 transition-all duration-100 z-50 ${
-          isHovering ? 'w-14 h-14' : 'w-9 h-9'
-        }`}
-      />
+      <div ref={cursorRef} className="cursor" id="cursor" />
+      <div ref={ringRef} className="cursor-ring" id="cursorRing" />
     </>
   )
 }

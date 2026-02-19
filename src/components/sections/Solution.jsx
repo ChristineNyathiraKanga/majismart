@@ -1,74 +1,247 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import SectionLabel from '../ui/SectionLabel'
-import Marquee from '../ui/Marquee'
-import { steps, marqueeItems } from '../../data/content'
 
 gsap.registerPlugin(ScrollTrigger)
+
+// Add CSS for marquee animation
+const marqueeStyle = document.createElement('style')
+marqueeStyle.textContent = `
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+`
+if (typeof document !== 'undefined') {
+  document.head.appendChild(marqueeStyle)
+}
 
 export default function Solution() {
   const containerRef = useRef(null)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const reveals = containerRef.current.querySelectorAll('.reveal')
-
-      gsap.from(reveals, {
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top 75%',
+      ScrollTrigger.batch('.reveal', {
+        onEnter: (batch) => {
+          gsap.to(batch, {
+            opacity: 1,
+            y: 0,
+            duration: 0.75,
+            stagger: 0.1,
+            ease: 'power3.out',
+            overwrite: true,
+          })
         },
-        opacity: 0,
-        y: 30,
-        stagger: 0.1,
-        duration: 1,
-        ease: 'power3.out',
+        start: 'top 88%',
       })
+
+      gsap.set('.reveal', { opacity: 0, y: 40 })
     }, containerRef)
 
     return () => ctx.revert()
   }, [])
 
+  const steps = [
+    {
+      num: "01",
+      title: "Order",
+      body:
+        "Choose brand or 'best value'. Select quantity (min 1×20L). Pay via M-Pesa or card.",
+    },
+    {
+      num: "02",
+      title: "Match",
+      body:
+        "Algorithm routes to nearest stocked, verified vendor + nearest available rider.",
+    },
+    {
+      num: "03",
+      title: "Dispatch",
+      body:
+        "Bodaboda or e-bike rider picks up. Real-time GPS tracking sent to customer.",
+    },
+    {
+      num: "04",
+      title: "Delivered",
+      body:
+        "Quality-verified water arrives. Ratings collected. Refill subscription optionally activated.",
+      isGreen: true,
+    },
+  ];
+
+  const marqueeItems = [
+    'Water-specific infrastructure:',
+    'Vendor Verification',
+    'Authenticity Controls',
+    'Scheduled Refills',
+    'SLA-grade supply',
+    'City-by-City Network Moat'
+  ]
+
   return (
-    <section id="solution-section" ref={containerRef} className="py-32 bg-navy-mid px-6 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className="reveal">
-          <SectionLabel label="The Solution" />
-        </div>
+    <section
+      id="solution"
+      ref={containerRef}
+      style={{
+        minHeight: '100vh',
+        padding: '120px 80px',
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        background: 'var(--navy-mid)',
+        overflow: 'hidden',
+      }}
+    >
+      <div
+        className="section-label reveal"
+        style={{
+          fontFamily: "'Space Mono', monospace",
+          fontSize: '0.65rem',
+          letterSpacing: '0.3em',
+          color: 'var(--teal)',
+          textTransform: 'uppercase',
+          marginBottom: '18px',
+          opacity: 0.8,
+        }}
+      >
+        The Solution
+      </div>
 
-        <h2 className="reveal font-display text-5xl md:text-7xl leading-tight mb-20 text-white">
-          One app. Nearest vendor.<br />
-          <span className="text-white/90">Nearest rider. Water in 60 min.</span>
-        </h2>
+      <h2
+        className="reveal"
+        style={{
+          fontFamily: "'DM Serif Display', serif",
+          fontSize: 'clamp(2rem, 4vw, 3.2rem)',
+          lineHeight: 1.15,
+          marginBottom: '60px',
+          maxWidth: '800px',
+        }}
+      >
+        One app. Nearest vendor.<br />Nearest rider. Water in 60 min.
+      </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {steps.map((step, idx) => (
+      <div
+        className="solution-steps"
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          gap: 0,
+          marginBottom: '40px',
+          position: 'relative',
+        }}
+      >
+        {/* Connecting line */}
+        <div
+          style={{
+            content: "''",
+            position: 'absolute',
+            top: '44px',
+            left: '12.5%',
+            right: '12.5%',
+            height: '1px',
+            background: 'linear-gradient(90deg, transparent, var(--teal), var(--green), transparent)',
+            zIndex: 0,
+          }}
+        />
+
+        {steps.map((step, idx) => (
+          <div
+            key={idx}
+            className="step-card reveal"
+            style={{
+              padding: '0 24px 40px',
+              textAlign: 'center',
+              position: 'relative',
+              zIndex: 1,
+            }}
+          >
             <div
-              key={idx}
-              className="reveal group bg-navy-mid/30 border border-white/5 p-10 rounded-2xl hover:bg-navy-card/50 transition-all duration-500 text-center"
+              className="step-num"
+              style={{
+                width: '56px',
+                height: '56px',
+                borderRadius: '50%',
+                background: 'var(--navy)',
+                border: `2px solid ${step.isGreen ? 'var(--green)' : 'var(--teal)'}`,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontFamily: "'Space Mono', monospace",
+                fontSize: '0.9rem',
+                color: step.isGreen ? 'var(--green)' : 'var(--teal-bright)',
+                margin: '0 auto 28px',
+                transition: 'all 0.3s',
+              }}
             >
-              <div className="text-4xl mb-6">
-                {step.icon}
-              </div>
-
-              <div className="w-12 h-12 rounded-full border border-teal/30 flex items-center justify-center mx-auto mb-6 text-teal-bright font-mono text-xs">
-                {step.num}
-              </div>
-
-              <h3 className="font-display text-2xl mb-4 group-hover:text-teal-bright transition-colors text-white">
-                {step.title}
-              </h3>
-
-              <p className="text-sm text-muted/50 leading-relaxed font-light">
-                {step.body}
-              </p>
+              {step.num}
             </div>
-          ))}
-        </div>
+            <div
+              className="step-title"
+              style={{
+                fontFamily: "'DM Serif Display', serif",
+                fontSize: '1.3rem',
+                marginBottom: '12px',
+                color: step.isGreen ? 'var(--green)' : 'var(--teal-bright)',
+              }}
+            >
+              {step.title}
+            </div>
+            <p
+              className="step-body"
+              style={{
+                fontSize: '0.83rem',
+                color: 'rgba(176,200,224,0.7)',
+                lineHeight: 1.7,
+              }}
+            >
+              {step.body}
+            </p>
+          </div>
+        ))}
+      </div>
 
-        <div className="reveal mt-32 relative -mx-6 pt-12 border-t border-white/5">
-          <Marquee items={marqueeItems} speed="30s" />
+      {/* Marquee */}
+      <div
+        className="marquee-wrap"
+        style={{
+          overflow: 'hidden',
+          borderTop: '1px solid var(--border)',
+          borderBottom: '1px solid var(--border)',
+          padding: '14px 0',
+          background: 'rgba(10,147,150,0.06)',
+          marginTop: '48px',
+        }}
+      >
+        <div
+          className="marquee-track"
+          style={{
+            display: 'flex',
+            gap: '60px',
+            animation: 'marquee 20s linear infinite',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {[...marqueeItems, ...marqueeItems].map((item, idx) => (
+            <span
+              key={idx}
+              style={{
+                fontFamily: "'Space Mono', monospace",
+                fontSize: '0.7rem',
+                letterSpacing: '0.15em',
+                color: 'var(--teal-light)',
+                textTransform: 'uppercase',
+                flexShrink: 0,
+              }}
+            >
+              <span style={{ color: 'var(--teal)' }}>◆ </span>
+              {item}
+            </span>
+          ))}
         </div>
       </div>
     </section>

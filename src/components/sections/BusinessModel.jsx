@@ -1,8 +1,12 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import SectionLabel from '../ui/SectionLabel'
-import { revenueStreams } from '../../data/content'
+import {
+  TrendingUp,
+  Truck,
+  Home,
+  Building2,
+} from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -11,72 +15,166 @@ export default function BusinessModel() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const reveals = containerRef.current.querySelectorAll('.reveal')
-
-      gsap.from(reveals, {
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top 75%',
+      ScrollTrigger.batch('.reveal', {
+        onEnter: (batch) => {
+          gsap.to(batch, {
+            opacity: 1,
+            y: 0,
+            duration: 0.75,
+            stagger: 0.1,
+            ease: 'power3.out',
+            overwrite: true,
+          })
         },
-        opacity: 0,
-        y: 30,
-        stagger: 0.1,
-        duration: 1,
-        ease: 'power3.out',
+        start: 'top 88%',
       })
+
+      gsap.set('.reveal', { opacity: 0, y: 40 })
     }, containerRef)
 
     return () => ctx.revert()
   }, [])
 
+const revenueStreams = [
+  {
+    icon: TrendingUp,
+    name: "Platform Commission",
+    value: "10–12% at launch\n→ 12–18% at scale",
+    sub: "On each water order value",
+    variant: "teal",
+  },
+  {
+    icon: Truck,
+    name: "Delivery Margin",
+    value: "KES 50–120 fee\nminus rider payout",
+    sub: "Improved via batching + e-bikes",
+    variant: "teal",
+  },
+  {
+    icon: Home,
+    name: "Household Subscription",
+    value: "KES 199–349/mo",
+    sub: "Priority dispatch · refill scheduling · bundles",
+    variant: "gold",
+  },
+  {
+    icon: Building2,
+    name: "Vendor Subscription",
+    value: "KES 1,000–2,500/mo",
+    sub: "Promoted listing · analytics · SLA access",
+    variant: "green",
+  },
+];
+
   return (
-    <section id="business-section" ref={containerRef} className="py-32 bg-navy-mid px-6 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className="reveal">
-          <SectionLabel label="Business Model" />
-        </div>
+    <section
+      id="business"
+      ref={containerRef}
+      style={{
+        minHeight: '100vh',
+        padding: '120px 80px',
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        background: 'var(--navy-mid)',
+      }}
+    >
+      <div
+        className="section-label reveal"
+        style={{
+          fontFamily: "'Space Mono', monospace",
+          fontSize: '0.65rem',
+          letterSpacing: '0.3em',
+          color: 'var(--teal)',
+          textTransform: 'uppercase',
+          marginBottom: '18px',
+          opacity: 0.8,
+        }}
+      >
+        Business Model
+      </div>
 
-        <h2 className="reveal font-display text-5xl md:text-7xl leading-tight mb-20 text-white">
-          Four revenue streams.<br />
-          <span className="text-white/90">Minimum order: 1 × 20L bottle.</span>
-        </h2>
+      <h2
+        className="reveal"
+        style={{
+          fontFamily: "'DM Serif Display', serif",
+          fontSize: 'clamp(2rem, 4vw, 3.2rem)',
+          lineHeight: 1.15,
+          marginBottom: '60px',
+          maxWidth: '800px',
+        }}
+      >
+        Four revenue streams.<br />Minimum order: 1 × 20L bottle.
+      </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {revenueStreams.map((stream, idx) => (
-            <div
-              key={idx}
-              className={`reveal group bg-navy-mid/40 border border-white/5 p-10 rounded-2xl transition-all duration-500 hover:bg-navy-card/60 ${stream.variant === 'gold' ? 'border-gold/20 hover:border-gold/40' :
-                  stream.variant === 'green' ? 'border-green/20 hover:border-green/40' :
-                    'border-white/5 hover:border-teal/30'
-                }`}
+      <div
+        className="revenue-grid"
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          gap: '16px',
+          marginBottom: '32px',
+        }}
+      >
+        {revenueStreams.map((stream, idx) => (
+          <div
+            key={idx}
+            className={`revenue-card reveal ${stream.variant}`}
+            style={{
+              background: 'var(--navy-card)',
+              border: `1px solid ${stream.variant === 'gold' ? 'rgba(233,196,106,0.4)' : stream.variant === 'green' ? 'rgba(45,198,83,0.3)' : 'var(--border)'}`,
+              borderRadius: '8px',
+              padding: '36px 28px',
+              transition: 'all 0.3s',
+              position: 'relative',
+              overflow: 'hidden',
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "'Space Mono', monospace",
+                fontSize: '0.62rem',
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                color: stream.variant === 'gold' ? 'var(--gold)' : stream.variant === 'green' ? 'var(--green)' : 'var(--teal)',
+                marginBottom: '12px',
+                display: 'block',
+              }}
             >
-              <div className="text-4xl mb-8 group-hover:scale-110 transition-transform duration-500 origin-left">
-                {stream.icon}
-              </div>
-
-              <div className={`font-mono text-[9px] uppercase tracking-[0.2em] mb-4 ${stream.variant === 'gold' ? 'text-gold' :
-                  stream.variant === 'green' ? 'text-green' : 'text-teal'
-                }`}>
-                {stream.name}
-              </div>
-
-              <div className="font-display text-2xl mb-4 leading-tight text-white whitespace-pre-line">
-                {stream.value}
-              </div>
-
-              <p className="text-sm text-muted/50 leading-relaxed font-light">
-                {stream.sub}
-              </p>
+              {stream.name}
+            </span>
+            <div
+              style={{
+                fontFamily: "'DM Serif Display', serif",
+                fontSize: '1.4rem',
+                marginBottom: '8px',
+                lineHeight: 1.2,
+                whiteSpace: 'pre-line',
+              }}
+            >
+              {stream.value}
             </div>
-          ))}
-        </div>
+            <p style={{ fontSize: '0.78rem', color: 'var(--muted)', lineHeight: 1.6 }}>{stream.sub}</p>
+          </div>
+        ))}
+      </div>
 
-        <div className="reveal mt-20 py-10 bg-teal/5 border border-teal/20 rounded-2xl text-center px-10">
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-teal-light leading-relaxed">
-            1×20L order: ~KES 50–60 gross &nbsp;·&nbsp; 2×20L order: ~KES 80–95 gross &nbsp;·&nbsp;
-            <span className="text-gold">Subscription + batching = path to profitability</span>
-          </p>
-        </div>
+      <div
+        className="model-note reveal"
+        style={{
+          background: 'rgba(10,147,150,0.08)',
+          border: '1px solid var(--border)',
+          borderRadius: '8px',
+          padding: '18px 28px',
+          fontSize: '0.82rem',
+          color: 'var(--teal-light)',
+          textAlign: 'center',
+          fontFamily: "'Space Mono', monospace",
+          letterSpacing: '0.04em',
+        }}
+      >
+        1×20L order: ~KES 50–60 gross contribution &nbsp;·&nbsp; 2×20L order: ~KES 80–95 gross contribution&nbsp;·&nbsp; <span style={{ color: 'var(--gold)' }}>Subscription + batching = path to profitability</span>
       </div>
     </section>
   )

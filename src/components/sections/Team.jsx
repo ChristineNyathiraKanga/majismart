@@ -1,93 +1,210 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import SectionLabel from '../ui/SectionLabel'
-import { team } from '../../data/content'
 
 gsap.registerPlugin(ScrollTrigger)
 
 export default function Team() {
   const containerRef = useRef(null)
-  const cardsRef = useRef([])
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from(cardsRef.current, {
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top 75%',
+      ScrollTrigger.batch('.reveal', {
+        onEnter: (batch) => {
+          gsap.to(batch, {
+            opacity: 1,
+            y: 0,
+            duration: 0.75,
+            stagger: 0.1,
+            ease: 'power3.out',
+            overwrite: true,
+          })
         },
-        opacity: 0,
-        y: 40,
-        stagger: 0.1,
-        duration: 1,
-        ease: 'power3.out',
+        start: 'top 88%',
       })
-    })
+
+      gsap.set('.reveal', { opacity: 0, y: 40 })
+    }, containerRef)
+
     return () => ctx.revert()
   }, [])
 
+  const teamMembers = [
+    {
+      initials: 'CEO',
+      name: 'CEO / Founder',
+      role: 'Product vision, fundraising, strategy',
+      desc: 'Nairobi HQ',
+      gradient: 'linear-gradient(135deg, var(--teal) 0%, var(--teal-light) 100%)',
+    },
+    {
+      initials: 'CTO',
+      name: 'CTO / Tech Lead',
+      role: 'App + backend + maps + dispatch + payments',
+      desc: 'Consumer + Vendor apps',
+      gradient: 'linear-gradient(135deg, var(--gold) 0%, #f4d98c 100%)',
+    },
+    {
+      initials: ' Ops',
+      name: 'Operations Manager',
+      role: ' Service levels, vendor QA, rider performance',
+      desc: 'City rollout lead',
+      gradient: 'linear-gradient(135deg, var(--green) 0%, #5ee17c 100%)',
+    },
+    {
+      initials: 'Sales',
+      name: 'Sales Channel Manager',
+      role: 'Estate + office + reseller partnerships',
+      desc: 'Revenue channels',
+      gradient: 'linear-gradient(135deg, #6B8CAE 0%, #8fa5bf 100%)',
+    },
+  ]
+
   return (
-    <section id="team-section" ref={containerRef} className="py-32 bg-navy px-6 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 gap-8">
-          <div className="max-w-2xl">
-            <SectionLabel label="Our Team" />
-            <h2 className="font-display text-5xl md:text-7xl leading-tight">
-              Operators with<br />
-              <span className="text-teal-bright">local leverage.</span>
-            </h2>
-          </div>
-          <p className="max-w-xs text-sm text-muted/60 font-light leading-relaxed border-l border-teal/20 pl-6">
-            Building infrastructure requires deep operational roots. Our team blends
-            tech prowess with local logistics expertise.
-          </p>
-        </div>
+    <section
+      id="team"
+      ref={containerRef}
+      style={{
+        minHeight: '100vh',
+        padding: '120px 80px',
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        background: 'var(--navy-mid)',
+      }}
+    >
+      <div
+        className="section-label reveal"
+        style={{
+          fontFamily: "'Space Mono', monospace",
+          fontSize: '0.65rem',
+          letterSpacing: '0.3em',
+          color: 'var(--teal)',
+          textTransform: 'uppercase',
+          marginBottom: '18px',
+          opacity: 0.8,
+        }}
+      >
+        Team & Execution Plan
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {team.map((member, idx) => (
+      <h2
+        className="reveal"
+        style={{
+          fontFamily: "'DM Serif Display', serif",
+          fontSize: 'clamp(2rem, 4vw, 3.2rem)',
+          lineHeight: 1.15,
+          marginBottom: '60px',
+          maxWidth: '800px',
+        }}
+      >
+        Lean. Ops-first.<br />Built to scale city by city.
+      </h2>
+
+      <div
+        className="team-grid"
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          gap: '24px',
+          marginBottom: '32px',
+        }}
+      >
+        {teamMembers.map((member, idx) => (
+          <div
+            key={idx}
+            className="team-card reveal"
+            style={{
+              background: 'var(--navy-card)',
+              border: '1px solid var(--border)',
+              borderRadius: '12px',
+              padding: '32px 24px',
+              textAlign: 'center',
+              transition: 'all 0.3s',
+            }}
+          >
             <div
-              key={idx}
-              ref={(el) => (cardsRef.current[idx] = el)}
-              className="group bg-navy-mid/30 border border-white/5 rounded-3xl p-8 hover:bg-navy-card/60 hover:border-teal/30 transition-all duration-500"
+              className="team-avatar"
+              style={{
+                width: '64px',
+                height: '64px',
+                borderRadius: '50%',
+                background: member.gradient,
+                margin: '0 auto 20px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontFamily: "'DM Serif Display', serif",
+                fontSize: '1.2rem',
+                color: 'var(--navy)',
+              }}
             >
-              <div className="relative mb-8 w-20 h-20">
-                <div className="absolute inset-0 bg-teal/20 rounded-2xl rotate-6 group-hover:rotate-12 transition-transform duration-500" />
-                <div className="absolute inset-0 bg-navy-mid rounded-2xl border border-white/10 flex items-center justify-center text-4xl shadow-xl">
-                  {member.avatar}
-                </div>
-              </div>
-
-              <div className="font-mono text-[9px] uppercase tracking-[0.2em] text-teal mb-3">
-                {member.role}
-              </div>
-
-              <h4 className="font-display text-xl mb-4 text-white group-hover:text-teal-bright transition-colors">
-                {member.title}
-              </h4>
-
-              <p className="text-xs text-muted/50 leading-relaxed font-light">
-                {member.desc}
-              </p>
+              {member.initials}
             </div>
-          ))}
-        </div>
-
-        {/* Global Support Bar */}
-        <div className="mt-20 p-10 bg-gradient-to-r from-teal/10 to-transparent border border-teal/20 rounded-3xl flex flex-col md:flex-row items-center gap-10">
-          <div className="flex-1">
-            <div className="font-mono text-[10px] uppercase tracking-widest text-teal mb-3">Supported By</div>
-            <div className="font-display text-3xl text-white mb-2">Antler East Africa</div>
-            <p className="text-sm text-muted/60 max-w-lg leading-relaxed font-light">
-              Leveraging a global venture network and deep in-country advisor pools
-              to fast-track regulatory and supply-chain hurdles.
+            <div
+              className="team-name"
+              style={{
+                fontFamily: "'DM Serif Display', serif",
+                fontSize: '1.1rem',
+                marginBottom: '4px',
+              }}
+            >
+              {member.name}
+            </div>
+            <div
+              className="team-role"
+              style={{
+                fontFamily: "'Space Mono', monospace",
+                fontSize: '0.6rem',
+                letterSpacing: '0.15em',
+                color: 'var(--teal)',
+                textTransform: 'uppercase',
+                marginBottom: '14px',
+              }}
+            >
+              {member.role}
+            </div>
+            <p className="team-desc" style={{ fontSize: '0.75rem', color: 'rgba(176,200,224,0.65)', lineHeight: 1.6 }}>
+              {member.desc}
             </p>
           </div>
-          <div className="h-px w-full md:w-px md:h-20 bg-teal/20" />
-          <div className="text-center md:text-left">
-            <div className="font-display text-4xl text-teal-bright mb-1">5+</div>
-            <div className="font-mono text-[9px] uppercase tracking-widest text-muted">Field Agents Active</div>
-          </div>
+        ))}
+      </div>
+
+      <div
+        className="agents-bar reveal"
+        style={{
+          background: 'rgba(233,196,106,0.06)',
+          border: '1px solid var(--border)',
+          borderRadius: '10px',
+          padding: '22px 28px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '24px',
+        }}
+      >
+        <div
+          style={{
+            fontFamily: "'DM Serif Display', serif",
+            fontSize: '1.15rem',
+            color: 'var(--gold)',
+          }}
+        >
+          + 5 Vendor Onboarding Agents
+        </div>
+        <div style={{ fontSize: '0.72rem', color: 'rgba(176,200,224,0.6)' }}>
+          Field activation · vendor compliance checks · Nairobi pilot zones ·
+          <span
+            style={{
+              fontFamily: "'Space Mono', monospace",
+              fontSize: '0.58rem',
+              color: 'var(--muted)',
+              marginLeft: '8px',
+            }}
+          >
+            Statutory costs budgeted: PAYE | AHL 3% | SHIF 2.75% | NSSF tiered (confirmed with payroll provider)
+          </span>
         </div>
       </div>
     </section>

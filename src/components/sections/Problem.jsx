@@ -1,8 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import SectionLabel from '../ui/SectionLabel'
-import { problems } from '../../data/content'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -11,65 +9,179 @@ export default function Problem() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const reveals = containerRef.current.querySelectorAll('.reveal')
-
-      gsap.from(reveals, {
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top 75%',
+      // Generic scroll reveals
+      ScrollTrigger.batch('.reveal', {
+        onEnter: (batch) => {
+          gsap.to(batch, {
+            opacity: 1,
+            y: 0,
+            duration: 0.75,
+            stagger: 0.1,
+            ease: 'power3.out',
+            overwrite: true,
+          })
         },
-        opacity: 0,
-        y: 30,
-        stagger: 0.15,
-        duration: 1,
-        ease: 'power3.out',
+        start: 'top 88%',
+      })
+
+      // Initial state for all .reveal elements
+      gsap.set('.reveal', { opacity: 0, y: 40 })
+
+      // Problem cards animation
+      ScrollTrigger.create({
+        trigger: '.problem-grid',
+        start: 'top 80%',
+        onEnter: () => {
+          gsap.from('.problem-card', {
+            opacity: 0,
+            y: 60,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: 'power3.out',
+          })
+        }
       })
     }, containerRef)
 
     return () => ctx.revert()
   }, [])
 
+  const problems = [
+    {
+      num: '67%',
+      isRed: true,
+      tag: '',
+      title: 'No Piped Water',
+      body: 'Only 33% of Kenyan households have piped access (KNBS/KDHS 2022). The rest rely on vendors, boreholes, or tankers.',
+    },
+    {
+      num: 'Trust\nGap',
+      isGold: true,
+      tag: '',
+      title: 'Safety Uncertainty',
+      body: 'Even when utilities supply treated water, most households still boil or treat — driving demand for delivered branded water.',
+    },
+    {
+      num: 'Zero',
+      tag: '',
+      title: 'Digital Dispatch',
+      body: 'No platform connects households to vetted vendors with real-time tracking, quality controls, and flexible M-Pesa payment.',
+    },
+  ]
+
   return (
-    <section id="problem-section" ref={containerRef} className="py-32 bg-navy px-6 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className="reveal">
-          <SectionLabel label="The Problem" />
-        </div>
+    <section
+      id="problem"
+      ref={containerRef}
+      style={{
+        minHeight: '100vh',
+        padding: '120px 80px',
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        background: 'linear-gradient(180deg, var(--navy) 0%, #0B1E38 100%)',
+      }}
+    >
+      <div
+        className="section-label reveal"
+        style={{
+          fontFamily: "'Space Mono', monospace",
+          fontSize: '0.65rem',
+          letterSpacing: '0.3em',
+          color: 'var(--teal)',
+          textTransform: 'uppercase',
+          marginBottom: '18px',
+          opacity: 0.8,
+        }}
+      >
+        The Problem
+      </div>
 
-        <h2 className="reveal font-display text-5xl md:text-7xl leading-tight mb-20 text-white">
-          Water is everywhere —<br />
-          <span className="text-blue/90">reliable, safe water</span>
-          <span className="text-white/90">  is not</span>
-        </h2>
+      <h2
+        className="reveal"
+        style={{
+          fontFamily: "'DM Serif Display', serif",
+          fontSize: 'clamp(2rem, 4vw, 3.2rem)',
+          lineHeight: 1.15,
+          marginBottom: '60px',
+          maxWidth: '800px',
+        }}
+      >
+        Water is everywhere —<br />reliable, safe water is not
+      </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {problems.map((problem, idx) => (
-            <div
-              key={idx}
-              className="reveal group bg-navy-mid/30 border border-white/5 p-10 rounded-2xl hover:bg-navy-card/50 transition-all duration-500"
+      <div
+        className="problem-grid"
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gap: '2px',
+        }}
+      >
+        {problems.map((problem, idx) => (
+          <div
+            key={idx}
+            className="problem-card"
+            style={{
+              background: 'var(--navy-card)',
+              border: '1px solid var(--border)',
+              padding: '48px 36px',
+              position: 'relative',
+              overflow: 'hidden',
+              transition: 'border-color 0.3s',
+            }}
+          >
+            <span
+              className="problem-num"
+              style={{
+                fontFamily: "'DM Serif Display', serif",
+                fontSize: '4.5rem',
+                color: problem.isRed ? '#FF6B6B' : problem.isGold ? 'var(--gold)' : 'var(--teal-bright)',
+                lineHeight: 1,
+                marginBottom: '8px',
+                display: 'block',
+                whiteSpace: 'pre-line',
+              }}
             >
-              <div
-                className={`font-display text-7xl font-bold mb-8 leading-none tracking-tighter ${problem.isRed ? 'text-red-500' : problem.isGold ? 'text-gold' : 'text-white'
-                  }`}
-                style={problem.num.includes('\n') ? { whiteSpace: 'pre-line' } : {}}
-              >
-                {problem.num}
-              </div>
-
-              <div className="font-mono text-[9px] uppercase text-teal tracking-[0.3em] mb-4">
-                {problem.tag}
-              </div>
-
-              <h3 className="font-display text-2xl mb-4 group-hover:text-teal-bright transition-colors text-white">
-                {problem.title}
-              </h3>
-
-              <p className="text-sm text-muted/50 leading-relaxed font-light">
-                {problem.body}
-              </p>
-            </div>
-          ))}
-        </div>
+              {problem.num}
+            </span>
+            <span
+              className="problem-tag"
+              style={{
+                fontFamily: "'Space Mono', monospace",
+                fontSize: '0.6rem',
+                letterSpacing: '0.2em',
+                color: 'var(--muted)',
+                textTransform: 'uppercase',
+                marginBottom: '20px',
+                display: 'block',
+              }}
+            >
+              {problem.tag}
+            </span>
+            <h3
+              className="problem-title"
+              style={{
+                fontFamily: "'DM Serif Display', serif",
+                fontSize: '1.5rem',
+                marginBottom: '16px',
+              }}
+            >
+              {problem.title}
+            </h3>
+            <p
+              className="problem-body"
+              style={{
+                fontSize: '0.88rem',
+                color: 'rgba(176,200,224,0.7)',
+                lineHeight: 1.75,
+              }}
+            >
+              {problem.body}
+            </p>
+          </div>
+        ))}
       </div>
     </section>
   )

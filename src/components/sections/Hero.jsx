@@ -1,198 +1,379 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import StatCard from '../ui/StatCard'
-import { heroStats } from '../../data/content'
-import { useScroll } from '../../context/ScrollContext'
-
-gsap.registerPlugin(ScrollTrigger)
 
 export default function Hero() {
   const containerRef = useRef(null)
-  const eyebrowRef = useRef(null)
-  const titleRef = useRef(null)
-  const subRef = useRef(null)
-  const descRef = useRef(null)
-  const statsRef = useRef(null)
-  const actionsRef = useRef(null)
-  const ringsRef = useRef([])
-  const { scrollTo } = useScroll()
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Entrance animation sequence
-      const tl = gsap.timeline({ delay: 0.5 })
+      // Hero entrance animation
+      const tl = gsap.timeline({ delay: 0.3 })
+      tl.from('.hero-eyebrow', { opacity: 0, y: 30, duration: 0.7, ease: 'power3.out' })
+        .from('.hero-title', { opacity: 0, y: 50, duration: 0.9, ease: 'power3.out' }, '-=0.4')
+        .from('.hero-sub', { opacity: 0, y: 30, duration: 0.7, ease: 'power3.out' }, '-=0.5')
+        .from('.hero-desc', { opacity: 0, y: 20, duration: 0.7, ease: 'power3.out' }, '-=0.5')
+        .from('.hero-stats', { opacity: 0, y: 20, duration: 0.7, ease: 'power3.out' }, '-=0.4')
+        .from('.hero-actions', { opacity: 0, y: 20, duration: 0.7, ease: 'power3.out' }, '-=0.4')
+        .from('.scroll-hint', { opacity: 0, duration: 0.6 }, '-=0.2')
 
-      tl.from(eyebrowRef.current, {
-        opacity: 0,
-        y: 20,
-        duration: 0.8,
-        ease: 'power3.out',
-      })
-        .from(titleRef.current.querySelectorAll('span'), {
-          opacity: 0,
-          y: 80,
-          stagger: 0.1,
-          duration: 1.2,
-          ease: 'expo.out',
-        }, '-=0.6')
-        .from(subRef.current, {
-          opacity: 0,
-          x: -20,
-          duration: 0.8,
-          ease: 'power3.out',
-        }, '-=0.8')
-        .from(descRef.current, {
-          opacity: 0,
-          duration: 1,
-          ease: 'power2.out',
-        }, '-=0.4')
-        .from(statsRef.current.children, {
-          opacity: 0,
-          y: 40,
-          stagger: 0.1,
-          duration: 0.8,
-          ease: 'back.out(1.7)',
-        }, '-=0.6')
-        .from(actionsRef.current.children, {
-          opacity: 0,
-          scale: 0.9,
-          stagger: 0.15,
-          duration: 0.6,
-          ease: 'power3.out',
-        }, '-=0.4')
-
-      // Parallax effect on scroll
-      gsap.to(ringsRef.current, {
-        y: (i) => (i + 1) * 100,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
-        }
-      })
-    })
+      // Remove .reveal opacity:0 for hero elements
+      const heroReveals = containerRef.current.querySelectorAll('.reveal')
+      heroReveals.forEach(el => el.style.opacity = 1)
+    }, containerRef)
 
     return () => ctx.revert()
   }, [])
 
-  // Background ring pulse animations
-  useEffect(() => {
-    ringsRef.current.forEach((ring, idx) => {
-      gsap.to(ring, {
-        duration: 3 + idx * 1,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-        scale: 1.05 + idx * 0.02,
-        opacity: 0.1 + (3 - idx) * 0.1,
-      })
-    })
-  }, [])
+  const scrollToSection = (id) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+  }
 
   return (
     <section
-      id="hero-section"
+      id="hero"
       ref={containerRef}
-      className="relative min-h-screen bg-navy text-white overflow-hidden flex items-center pt-24 pb-12"
+      style={{
+        minHeight: '100vh',
+        padding: '0 80px',
+        overflow: 'hidden',
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+      }}
     >
-      {/* Dynamic Background Elements */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(10,147,150,0.1),transparent_70%)]" />
-        {[0, 1, 2, 3].map((idx) => (
-          <div
-            key={idx}
-            ref={(el) => (ringsRef.current[idx] = el)}
-            className="absolute border border-teal/10 rounded-full"
-            style={{
-              width: `${500 + idx * 350}px`,
-              height: `${500 + idx * 350}px`,
-              right: `${-100 - idx * 100}px`,
-              top: `${0 - idx * 10}%`,
-              opacity: 0.1,
-            }}
-          />
-        ))}
+      {/* Background */}
+      <div className="hero-bg" style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
+        <div
+          className="ripple-ring"
+          style={{
+            position: 'absolute',
+            borderRadius: '50%',
+            border: '1px solid rgba(10,147,150,0.15)',
+            width: '400px',
+            height: '400px',
+            right: '-80px',
+            top: '10%',
+            animation: 'ripplePulse 6s ease-in-out infinite',
+            animationDelay: '0s',
+          }}
+        />
+        <div
+          className="ripple-ring"
+          style={{
+            position: 'absolute',
+            borderRadius: '50%',
+            border: '1px solid rgba(10,147,150,0.15)',
+            width: '700px',
+            height: '700px',
+            right: '-220px',
+            top: '-10%',
+            animation: 'ripplePulse 6s ease-in-out infinite',
+            animationDelay: '1.5s',
+          }}
+        />
+        <div
+          className="ripple-ring"
+          style={{
+            position: 'absolute',
+            borderRadius: '50%',
+            border: '1px solid rgba(10,147,150,0.15)',
+            width: '1000px',
+            height: '1000px',
+            right: '-400px',
+            top: '-25%',
+            animation: 'ripplePulse 6s ease-in-out infinite',
+            animationDelay: '3s',
+          }}
+        />
+        <div
+          className="ripple-ring"
+          style={{
+            position: 'absolute',
+            borderRadius: '50%',
+            border: '1px solid rgba(10,147,150,0.15)',
+            width: '1350px',
+            height: '1350px',
+            right: '-580px',
+            top: '-42%',
+            animation: 'ripplePulse 6s ease-in-out infinite',
+            animationDelay: '4.5s',
+          }}
+        />
       </div>
 
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="max-w-4xl">
-          {/* Eyebrow Label */}
+      {/* Hero Inner */}
+      <div
+        className="hero-inner"
+        style={{
+          position: 'relative',
+          zIndex: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          minHeight: '100vh',
+          maxWidth: '780px',
+        }}
+      >
+        {/* Eyebrow */}
+        <div
+          className="hero-eyebrow reveal"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '10px',
+            background: 'rgba(10,147,150,0.12)',
+            border: '1px solid var(--border)',
+            padding: '7px 16px',
+            borderRadius: '100px',
+            fontSize: '0.72rem',
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase',
+            color: 'var(--teal-light)',
+            marginBottom: '30px',
+            width: 'fit-content',
+          }}
+        >
+          <span
+            style={{
+              width: '6px',
+              height: '6px',
+              borderRadius: '50%',
+              background: 'var(--gold)',
+              animation: 'blink 2s infinite',
+            }}
+          />
+          Antler Pre-Seed 2026 · Nairobi, Kenya
+        </div>
+
+        {/* Title */}
+        <h1
+          className="hero-title reveal"
+          style={{
+            fontFamily: "'DM Serif Display', serif",
+            fontSize: 'clamp(3rem, 6.5vw, 5.5rem)',
+            lineHeight: 1.05,
+            marginBottom: '12px',
+            letterSpacing: '-0.01em',
+          }}
+        >
+          The <span style={{ color: 'var(--teal-bright)', fontStyle: 'italic' }}>Operating<br />System</span> for<br />Household Water
+        </h1>
+
+        {/* Sub */}
+        <p
+          className="hero-sub reveal"
+          style={{
+            fontSize: 'clamp(1rem, 2vw, 1.35rem)',
+            color: 'var(--muted)',
+            marginBottom: '14px',
+            fontWeight: 300,
+            maxWidth: '580px',
+            lineHeight: 1.6,
+          }}
+        >
+          One app. Nearest vendor. Nearest rider. Water in 60 min.
+        </p>
+
+        {/* Desc */}
+        <p
+          className="hero-desc reveal"
+          style={{
+            fontSize: '0.9rem',
+            color: 'rgba(144,176,208,0.7)',
+            maxWidth: '520px',
+            lineHeight: 1.7,
+            marginBottom: '52px',
+          }}
+        >
+          Aggregating drinking water vendors + last-mile dispatch via bodaboda & e-bike, with M-Pesa payments, real-time tracking, and quality controls — Nairobi first, then Kenya.
+        </p>
+
+        {/* Stats */}
+        <div
+          className="hero-stats reveal"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, auto)',
+            gap: 0,
+            marginBottom: '48px',
+            width: 'fit-content',
+          }}
+        >
           <div
-            ref={eyebrowRef}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-teal/10 border border-teal/20 mb-8"
+            className="stat-item"
+            style={{
+              padding: '24px 36px',
+              border: '1px solid var(--border)',
+              background: 'rgba(13,32,64,0.6)',
+              backdropFilter: 'blur(10px)',
+              borderRadius: '8px 0 0 8px',
+            }}
           >
-            <span className="flex h-2 w-2 rounded-full bg-gold animate-pulse" />
-            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-teal-light">
-              Nairobi · Antler Pre-Seed 2026
+            <span
+              style={{
+                fontFamily: "'DM Serif Display', serif",
+                fontSize: '2.2rem',
+                color: 'var(--teal-bright)',
+                display: 'block',
+                lineHeight: 1,
+              }}
+            >
+              33<span style={{ fontSize: '1.5rem' }}>%</span>
+            </span>
+            <span
+              style={{
+                fontSize: '0.72rem',
+                color: 'var(--muted)',
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                marginTop: '6px',
+                display: 'block',
+              }}
+            >
+              piped water access
             </span>
           </div>
-
-          {/* Main Title with Reveal */}
-          <h1
-            ref={titleRef}
-            className="font-display text-6xl md:text-8xl lg:text-9xl leading-[0.9] mb-8 overflow-hidden select-none"
+          <div
+            className="stat-item"
+            style={{
+              padding: '24px 36px',
+              border: '1px solid var(--border)',
+              borderLeft: 'none',
+              background: 'rgba(13,32,64,0.6)',
+              backdropFilter: 'blur(10px)',
+            }}
           >
-            <span className="block italic text-teal-bright">MajiSmart</span>
-          </h1>
-
-          {/* Subtitle & Description */}
-          <div className="grid md:grid-cols-2 gap-8 mb-12">
-            <div>
-              <h3 ref={subRef} className="text-xl md:text-2xl font-light text-white/90 leading-relaxed">
-                The Operating System for Household Water
-              </h3>
-            </div>
-            <div>
-              <p ref={descRef} className="text-sm text-muted/60 leading-relaxed max-w-sm">
-                Aggregating drinking water vendors + last-mile dispatch via bodaboda & e-bike,
-                with M-Pesa payments, real-time tracking, and quality controls — Nairobi first, then Kenya.
-              </p>
-            </div>
-          </div>
-
-          {/* Stats Grid */}
-          <div ref={statsRef} className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-12 max-w-2xl">
-            {heroStats.map((stat, idx) => (
-              <StatCard
-                key={idx}
-                value={stat.value}
-                label={stat.label}
-                prefix={stat.prefix}
-                suffix={stat.suffix}
-              />
-            ))}
-          </div>
-
-          {/* Primary Actions */}
-          <div ref={actionsRef} className="flex flex-wrap gap-4">
-            <button
-              onClick={() => scrollTo('#problem-section')}
-              className="group relative px-8 py-4 bg-teal text-navy font-mono text-xs font-bold uppercase tracking-widest overflow-hidden transition-all hover:pr-12"
+            <span
+              style={{
+                fontFamily: "'DM Serif Display', serif",
+                fontSize: '1.8rem',
+                color: 'var(--teal-bright)',
+                display: 'block',
+                lineHeight: 1,
+              }}
             >
-              <span className="relative z-10 transition-transform group-hover:-translate-x-1">Explore MajiSmart</span>
-              <span className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 -translate-x-2 transition-all group-hover:opacity-100 group-hover:translate-x-0">
-                →
-              </span>
-              <div className="absolute inset-0 bg-teal-bright translate-y-full transition-transform group-hover:translate-y-0" />
-            </button>
-            <button
-              onClick={() => scrollTo('#cta-section')}
-              className="px-8 py-4 border border-white/10 hover:border-teal/50 transition-all font-mono text-xs uppercase tracking-widest text-muted hover:text-white"
+              KES 320
+            </span>
+            <span
+              style={{
+                fontSize: '0.72rem',
+                color: 'var(--muted)',
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                marginTop: '6px',
+                display: 'block',
+              }}
             >
-              Investor Portal
-            </button>
+              avg. 20L bottle
+            </span>
           </div>
+          <div
+            className="stat-item"
+            style={{
+              padding: '24px 36px',
+              border: '1px solid var(--border)',
+              borderLeft: 'none',
+              background: 'rgba(13,32,64,0.6)',
+              backdropFilter: 'blur(10px)',
+              borderRadius: '0 8px 8px 0',
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "'DM Serif Display', serif",
+                fontSize: '1.8rem',
+                color: 'var(--teal-bright)',
+                display: 'block',
+                lineHeight: 1,
+              }}
+            >
+              $1B+
+            </span>
+            <span
+              style={{
+                fontSize: '0.72rem',
+                color: 'var(--muted)',
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                marginTop: '6px',
+                display: 'block',
+              }}
+            >
+              water market Kenya
+            </span>
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div className="hero-actions reveal" style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+          <button
+            onClick={() => scrollToSection('problem')}
+            className="btn-primary"
+            style={{
+              background: 'var(--teal)',
+              color: 'white',
+              border: 'none',
+              padding: '14px 32px',
+              borderRadius: '6px',
+              fontSize: '0.9rem',
+              fontFamily: "'DM Sans', sans-serif",
+              fontWeight: 500,
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+            }}
+          >
+            Explore the Opportunity ↓
+          </button>
+          <button
+            onClick={() => scrollToSection('cta')}
+            className="btn-ghost"
+            style={{
+              background: 'transparent',
+              color: 'var(--muted)',
+              border: '1px solid var(--border)',
+              padding: '14px 28px',
+              borderRadius: '6px',
+              fontSize: '0.85rem',
+              fontFamily: "'DM Sans', sans-serif",
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+            }}
+          >
+            hello@majismart.co
+          </button>
         </div>
       </div>
 
-      {/* Background Decor */}
-      <div className="absolute bottom-12 right-12 hidden lg:block opacity-20">
-        <p className="font-mono text-[8px] uppercase tracking-[0.5em] rotate-90 origin-right">
-          Innovating Local Infrastructure
-        </p>
+      {/* Scroll Hint */}
+      <div
+        className="scroll-hint"
+        style={{
+          position: 'absolute',
+          bottom: '40px',
+          left: '80px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          color: 'var(--muted)',
+          fontSize: '0.72rem',
+          letterSpacing: '0.12em',
+          textTransform: 'uppercase',
+        }}
+      >
+        <div
+          className="scroll-line"
+          style={{
+            width: '40px',
+            height: '1px',
+            background: 'var(--teal)',
+            animation: 'scrollPulse 2s ease-in-out infinite',
+          }}
+        />
+        Scroll
       </div>
     </section>
   )

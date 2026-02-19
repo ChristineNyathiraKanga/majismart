@@ -1,127 +1,262 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { useScroll } from '../../context/ScrollContext'
-import { ctaStats } from '../../data/content'
-import CountUp from '../ui/CountUp'
 
 gsap.registerPlugin(ScrollTrigger)
 
 export default function CTA() {
   const containerRef = useRef(null)
-  const contentRef = useRef(null)
-  const ringsRef = useRef([])
-  const { scrollTo } = useScroll()
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top 60%',
-        }
+      ScrollTrigger.batch('.reveal', {
+        onEnter: (batch) => {
+          gsap.to(batch, {
+            opacity: 1,
+            y: 0,
+            duration: 0.75,
+            stagger: 0.1,
+            ease: 'power3.out',
+            overwrite: true,
+          })
+        },
+        start: 'top 88%',
       })
 
-      tl.from(contentRef.current.children, {
-        opacity: 0,
-        y: 40,
-        stagger: 0.15,
-        duration: 1.2,
-        ease: 'expo.out',
-      })
-    })
+      gsap.set('.reveal', { opacity: 0, y: 40 })
+    }, containerRef)
 
     return () => ctx.revert()
   }, [])
 
-  useEffect(() => {
-    ringsRef.current.forEach((ring, idx) => {
-      gsap.to(ring, {
-        duration: 20 + idx * 10,
-        rotation: 360,
-        repeat: -1,
-        ease: 'none',
-      })
-
-      gsap.to(ring, {
-        scale: 1.1,
-        duration: 4,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-        delay: idx * 0.5,
-      })
-    })
-  }, [])
+  const stats = [
+    { value: '$100K', label: 'Pre-seed raise', color: 'var(--gold)' },
+    { value: 'M16-22', label: 'Break-even target', color: 'var(--gold)' },
+    { value: '5 cities', label: '3-year roadmap', color: 'var(--gold)' },
+    { value: '\u221E', label: 'Water. Every day', color: 'var(--teal)' },
+  ]
 
   return (
     <section
-      id="cta-section"
+      id="cta"
       ref={containerRef}
-      className="relative min-h-[90vh] flex items-center justify-center py-32 px-6 bg-navy overflow-hidden"
+      style={{
+        minHeight: '100vh',
+        padding: '120px 80px',
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
+        background: 'var(--navy)',
+        overflow: 'hidden',
+      }}
     >
-      {/* Dynamic Cinematic Rings */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[1000, 1500, 2000].map((size, idx) => (
-          <div
-            key={idx}
-            ref={(el) => (ringsRef.current[idx] = el)}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border border-teal/5 rounded-full"
-            style={{ width: size, height: size }}
-          />
+      {/* Background circles */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '400px',
+          height: '400px',
+          borderRadius: '50%',
+          border: '1px solid rgba(10,147,150,0.1)',
+          pointerEvents: 'none',
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '700px',
+          height: '700px',
+          borderRadius: '50%',
+          border: '1px solid rgba(10,147,150,0.06)',
+          pointerEvents: 'none',
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '1000px',
+          height: '1000px',
+          borderRadius: '50%',
+          border: '1px solid rgba(10,147,150,0.03)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      <div
+        className="section-label reveal"
+        style={{
+          fontFamily: "'Space Mono', monospace",
+          fontSize: '0.65rem',
+          letterSpacing: '0.3em',
+          color: 'var(--teal)',
+          textTransform: 'uppercase',
+          marginBottom: '32px',
+          opacity: 0.8,
+        }}
+      >
+        MajiSmart · Antler Pre-Seed 2026
+      </div>
+
+      <h2
+        className="reveal"
+        style={{
+          fontFamily: "'DM Serif Display', serif",
+          fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+          lineHeight: 1.15,
+          marginBottom: '28px',
+        }}
+      >
+        Every home. Every city.<br />
+        <span style={{ fontStyle: 'italic', color: 'var(--teal-bright)' }}>Clean water on demand.</span>
+      </h2>
+
+      <p
+        className="reveal"
+        style={{
+          fontSize: '1rem',
+          color: 'rgba(176,200,224,0.6)',
+          maxWidth: '600px',
+          marginBottom: '48px',
+          lineHeight: 1.7,
+        }}
+      >
+        Water is Kenya's most consumed, most unreliable, and least digitised essential. We are building the infrastructure layer that connects supply to demand — starting with a bottle, scaling to a city.
+      </p>
+
+      <div
+        className="cta-stats reveal"
+        style={{
+          display: 'flex',
+          gap: '48px',
+          marginBottom: '48px',
+        }}
+      >
+        {stats.map((stat, idx) => (
+          <div key={idx} className="cta-stat" style={{ textAlign: 'center' }}>
+            <div
+              style={{
+                fontFamily: "'DM Serif Display', serif",
+                fontSize: '2.4rem',
+                color: stat.color,
+                marginBottom: '4px',
+              }}
+            >
+              {stat.value}
+            </div>
+            <div
+              style={{
+                fontFamily: "'Space Mono', monospace",
+                fontSize: '0.6rem',
+                letterSpacing: '0.15em',
+                color: 'var(--muted)',
+                textTransform: 'uppercase',
+              }}
+            >
+              {stat.label}
+            </div>
+          </div>
         ))}
       </div>
 
-      <div ref={contentRef} className="max-w-4xl mx-auto text-center relative z-10">
-        <div className="inline-flex items-center gap-3 border border-gold/30 bg-gold/5 rounded-full px-6 py-2 mb-12">
-          <span className="flex h-2 w-2 rounded-full bg-gold animate-pulse" />
-          <span className="font-mono text-[9px] text-gold/80 uppercase tracking-[0.3em]">
-            Investment Round: Pre-Seed Open
-          </span>
-        </div>
+      {/* <div
+        className="cta-buttons reveal"
+        style={{
+          display: 'flex',
+          gap: '16px',
+          marginBottom: '48px',
+        }}
+      >
+        <a
+          href="#"
+          className="btn-primary"
+          style={{
+            background: 'var(--teal)',
+            color: 'var(--white)',
+            padding: '14px 36px',
+            borderRadius: '8px',
+            fontFamily: "'DM Serif Display', serif",
+            fontSize: '1rem',
+            textDecoration: 'none',
+            transition: 'all 0.3s',
+            border: 'none',
+            cursor: 'pointer',
+          }}
+        >
+          Request Full Deck →
+        </a>
+        <a
+          href="#team"
+          className="btn-secondary"
+          style={{
+            background: 'transparent',
+            color: 'var(--white)',
+            padding: '14px 36px',
+            borderRadius: '8px',
+            fontFamily: "'DM Serif Display', serif",
+            fontSize: '1rem',
+            textDecoration: 'none',
+            border: '1px solid var(--border)',
+            transition: 'all 0.3s',
+            cursor: 'pointer',
+          }}
+        >
+          Meet the Team
+        </a>
+      </div> */}
 
-        <h2 className="font-display text-6xl md:text-8xl lg:text-9xl leading-tight mb-12">
-          Let's scale <br />
-          <span className="text-teal-bright italic">better</span> water.
-        </h2>
+      <div
+        className="reveal"
+        style={{
+          fontFamily: "'Space Mono', monospace",
+          fontSize: '0.68rem',
+          color: 'var(--muted)',
+          marginBottom: '20px',
+        }}
+      >
+        <a
+          href="mailto:hello@majismart.co"
+          style={{
+            color: 'var(--teal-light)',
+            textDecoration: 'none',
+            transition: 'color 0.3s',
+          }}
+        >
+          hello@majismart.co
+        </a>
+        {' · '}Nairobi, Kenya
+      </div>
 
-        {/* CTA Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-16 mb-20 max-w-3xl mx-auto">
-          {ctaStats.map((stat, idx) => (
-            <div key={idx} className="text-center group">
-              <div className={`font-display text-4xl md:text-5xl mb-3 tracking-tighter transition-transform group-hover:scale-110 duration-500 ${idx === 0 ? 'text-teal-bright' : idx === 1 ? 'text-gold' : 'text-green'
-                }`}>
-                {stat.value.includes('$') ? stat.value : <CountUp end={parseInt(stat.value)} />}
-              </div>
-              <div className="font-mono text-[9px] uppercase tracking-widest text-muted/50">
-                {stat.label}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="flex flex-col items-center gap-12">
-          <button
-            onClick={() => window.open('mailto:hello@majismart.co')}
-            className="group relative px-12 py-5 bg-teal text-navy font-mono text-xs font-bold uppercase tracking-[0.2em] overflow-hidden transition-all hover:pr-16"
-          >
-            <span className="relative z-10">Secure the Prospectus</span>
-            <span className="absolute right-6 top-1/2 -translate-y-1/2 opacity-0 -translate-x-2 transition-all group-hover:opacity-100 group-hover:translate-x-0">
-              →
-            </span>
-            <div className="absolute inset-0 bg-teal-bright translate-y-full transition-transform group-hover:translate-y-0" />
-          </button>
-
-          <div className="flex flex-col gap-4">
-            <a href="mailto:hello@majismart.co" className="font-mono text-xs text-muted/60 hover:text-teal-bright transition-colors uppercase tracking-widest">
-              hello@majismart.co
-            </a>
-            <div className="flex justify-center gap-8 opacity-40">
-              <span className="font-mono text-[8px] uppercase tracking-[0.4em]">Nairobi HQ</span>
-              <span className="font-mono text-[8px] uppercase tracking-[0.4em]">Kenya 2026</span>
-            </div>
-          </div>
-        </div>
+      <div
+        className="antler-badge reveal"
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '10px',
+          padding: '10px 22px',
+          background: 'rgba(233,196,106,0.08)',
+          border: '1px solid rgba(233,196,106,0.25)',
+          borderRadius: '24px',
+          fontFamily: "'Space Mono', monospace",
+          fontSize: '0.6rem',
+          color: 'var(--gold)',
+          letterSpacing: '0.15em',
+          textTransform: 'uppercase',
+        }}
+      >
+        <span style={{ animation: 'blink 1.5s infinite' }}>⚡</span>
+        Antler.co Cohort 2026
       </div>
     </section>
   )
